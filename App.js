@@ -1,20 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import MainLayOut from "./src/components/NavSwitchBar";
+import { initProductTable } from "./src/modules/product";
+
+// 如果分頁有異動，請記得改address
+import DashboardView from './src/views/DashboardView';
+import CreateView from './src/views/CreateView';
+import InventoryView from './src/views/InventoryView';
+import HintView from './src/views/HintView';
+import AnnouncementView from './src/views/AnnouncementView';
+import SettingView from './src/views/SettingView';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [topView, setTopView] = useState(null);
+
+  const handleSwitchTab = (tabName) => {
+    setActiveTab(tabName);
+    setTopView(null);
+  };
+
+  const handleTopNav = (viewName) => {
+    setTopView(viewName); 
+  };
+
+  let ContentComponent;
+
+  if (topView === 'Hint') ContentComponent = HintView;
+  else if (topView === 'Announcement') ContentComponent = AnnouncementView;
+  else if (topView === 'Setting') ContentComponent = SettingView;
+  else {
+    if (activeTab === 'Dashboard') ContentComponent = DashboardView;
+    else if (activeTab === 'Create') ContentComponent = CreateView;
+    else if (activeTab === 'Inventory') ContentComponent = InventoryView;
+  }
+
+  useEffect(() => {
+    // init product in the beninging. 🤣
+    initProductTable();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainLayOut
+      onNavigateTop={handleTopNav}
+      onSwitchTab={handleSwitchTab}
+      activeTab={activeTab}
+    >
+      <ContentComponent key={topView || activeTab} />
+    </MainLayOut>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

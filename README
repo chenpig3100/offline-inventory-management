@@ -1,0 +1,4 @@
+## Please install packages below before develop ##
+npm install
+npx expo install axios
+npx expo install expo-sqlite
