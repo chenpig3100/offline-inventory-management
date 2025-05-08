@@ -1,7 +1,13 @@
-import { resolvePlugin } from '@babel/core';
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabaseAsync('inventory.db')
+let db;
+
+export function getDBConnection() {
+  if (!db) {
+    db = SQLite.openDatabase('inventory.db');
+  }
+  return db;
+}
 
 //initial table
 export const initProductTable = () => {

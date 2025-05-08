@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MainLayOut from "./src/components/NavSwitchBar";
-import { initProductTable } from "./src/modules/product";
+//import { initProductTable, getAllProducts } from "./src/modules/product";
+
 
 // 如果分頁有異動，請記得改address
 import DashboardView from './src/views/DashboardView';
@@ -34,9 +35,21 @@ export default function App() {
     else if (activeTab === 'Inventory') ContentComponent = InventoryView;
   }
 
+
   useEffect(() => {
-    // init product in the beninging. 🤣
-    initProductTable();
+    const runDB = async () => {
+      try {
+        initProductTable();
+        getAllProducts((products) => {
+          console.log('🔥 Products loaded:');
+          console.log(products);
+        });
+      } catch (e) {
+        console.log('🚨 runDB error:', e);
+      };
+    };
+  
+    runDB();
   }, []);
 
   return (

@@ -2,3 +2,4 @@
 npm install
 npx expo install axios
 npx expo install expo-sqlite
+npx expo install @react-native-async-storage/async-storage
