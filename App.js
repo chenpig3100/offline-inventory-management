@@ -17,19 +17,19 @@ import SettingView from './src/views/SettingView';
 
 const Stack = createNativeStackNavigator();
 
-// function AppNavigator() {
-//   const { userToken } = useAuth();
+function AppNavigator() {
+  const { userToken } = useAuth();
 
-//   return (
-//     <Stack.Navigator screenOptions={{ headerShown: false }}>
-//       {userToken == null ? (
-//         <Stack.Screen name="Login" component={LoginView} />
-//       ) : (
-//         <Stack.Screen name="Main" component={MainView} />
-//       )}
-//     </Stack.Navigator>
-//   );
-// }
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {userToken == null ? (
+        <Stack.Screen name="Login" component={LoginView} />
+      ) : (
+        <Stack.Screen name="Main" component={MainView} />
+      )}
+    </Stack.Navigator>
+  );
+}
 
 function MainView() {
   const [activeTab, setActiveTab] = useState('Dashboard');
