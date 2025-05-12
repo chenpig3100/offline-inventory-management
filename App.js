@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import MainLayOut from "./src/components/NavSwitchBar";
 //import { initProductTable, getAllProducts } from "./src/modules/product";
+import LoginView from "./src/views/LoginView";
+import { NavigationContainer  } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useAuth, AuthProvider } from "./src/context/AuthContext";
 
 
 // 如果分頁有異動，請記得改address
@@ -11,7 +15,23 @@ import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import SettingView from './src/views/SettingView';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+// function AppNavigator() {
+//   const { userToken } = useAuth();
+
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       {userToken == null ? (
+//         <Stack.Screen name="Login" component={LoginView} />
+//       ) : (
+//         <Stack.Screen name="Main" component={MainView} />
+//       )}
+//     </Stack.Navigator>
+//   );
+// }
+
+function MainView() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [topView, setTopView] = useState(null);
 
@@ -60,5 +80,23 @@ export default function App() {
     >
       <ContentComponent key={topView || activeTab} />
     </MainLayOut>
+  );
+}
+
+// export default function App() {
+//   return (
+//     <AuthProvider>
+//       <NavigationContainer>
+//         <AppNavigator />
+//       </NavigationContainer>
+//     </AuthProvider>
+//   );
+// }
+
+export default function App() {
+  return (
+      <NavigationContainer>
+        <MainView />
+      </NavigationContainer>
   );
 }

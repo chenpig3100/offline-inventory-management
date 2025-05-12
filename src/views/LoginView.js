@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, Button, Alert, Text } from 'react-native';
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import styles from "../constants/loginViewStyles";
 
 export default function LoginView() {
   const [username, setUsername] = useState('');
@@ -27,22 +28,30 @@ export default function LoginView() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 16 }}>Login</Text>
-      <TextInput
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
+
+      <View style={styles.inputGroup}>
+        <Text style={styles.label}>Account:</Text>
+        <TextInput
         placehoder="username"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
-        style={{ borderBottomWidth: 1, marginBottom: 12 }}
+        style={styles.input}
         />
-      <TextInput
+      </View>
+      
+      <View style={styles.inputGroup}>
+        <Text style={styles.label}>Password:</Text>
+        <TextInput
         placehoder="password"
         value={[password]}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderBottomWidth: 1, marginBottom: 24 }}
+        style={styles.input}
         />  
+      </View>
       <Button title="Login" onPress={handleLogin} />  
     </View>
   );
