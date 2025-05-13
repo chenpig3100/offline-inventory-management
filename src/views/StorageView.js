@@ -1,0 +1,155 @@
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Platform,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { AntDesign } from "@expo/vector-icons";
+
+export default function StorageView({ onNavigateTop }) {
+  const [selectedHistory, setSelectedHistory] = useState("1");
+  const usedStorage = 12.3;
+  const totalStorage = 128;
+  const usedPercent = (usedStorage / totalStorage) * 100;
+
+  return (
+    <View style={styles.page}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.title}>Storage</Text>
+
+        <View style={styles.barContainer}>
+          <View style={[styles.usedBar, { width: `${usedPercent}%` }]} />
+          <View style={styles.availableBar} />
+        </View>
+
+        <View style={styles.legendRow}>
+          <View style={styles.legendItem}>
+            <View style={[styles.circle, { backgroundColor: "red" }]} />
+            <Text>Used Storage</Text>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.circle, { backgroundColor: "green" }]} />
+            <Text>Available Storage</Text>
+          </View>
+        </View>
+
+        <Text style={styles.usageText}>
+          {usedStorage} GB of {totalStorage} GB used
+        </Text>
+
+        <Text style={{ marginTop: 20 }}>Keep history records for:</Text>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={selectedHistory}
+            onValueChange={(itemValue) => setSelectedHistory(itemValue)}
+            mode="dropdown"
+            style={styles.picker}
+          >
+            <Picker.Item label="1 month" value="1" />
+            <Picker.Item label="3 months" value="3" />
+            <Picker.Item label="6 months" value="6" />
+          </Picker>
+        </View>
+      </ScrollView>
+
+      {/* 固定底部按鈕 */}
+      <View style={styles.bottomBar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => onNavigateTop && onNavigateTop("Setting")}
+        >
+          <AntDesign name="arrowleft" size={20} color="black" />
+          <Text style={styles.backText}>Back to Setting</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  scrollContent: {
+    padding: 20,
+    paddingBottom: 80, // 留空給底部按鈕
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  barContainer: {
+    height: 20,
+    backgroundColor: "green",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginBottom: 10,
+  },
+  usedBar: {
+    position: "absolute",
+    left: 0,
+    height: "100%",
+    backgroundColor: "red",
+    zIndex: 2,
+  },
+  availableBar: {
+    flex: 1,
+    backgroundColor: "green",
+  },
+  legendRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  circle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 6,
+  },
+  usageText: {
+    textAlign: "center",
+    marginTop: 10,
+    fontSize: 14,
+  },
+  pickerWrapper: {
+    borderWidth: Platform.OS === "android" ? 1 : 0,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    marginTop: 5,
+  },
+  picker: {
+    height: 40,
+    width: "100%",
+  },
+  bottomBar: {
+    borderTopWidth: 1,
+    borderColor: "#ddd",
+    padding: 10,
+    backgroundColor: "#f9f9f9",
+  },
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+    backgroundColor: "#eee",
+    borderRadius: 8,
+  },
+  backText: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
+});

@@ -1,3 +1,4 @@
+// Vincent
 import React, { useState } from "react";
 import {
   View,
@@ -9,7 +10,7 @@ import {
 } from "react-native";
 import { Bell, HelpCircle, Settings, ChevronRight } from "lucide-react-native";
 
-export default function SettingView() {
+export default function SettingView({ onNavigateTop  }) {
   const [autoSync, setAutoSync] = useState(false);
 
   return (
@@ -30,11 +31,19 @@ export default function SettingView() {
         </View>
 
         {["Manage Storage", "FAQ", "Privacy Policy", "Log Out"].map((label) => (
-          <TouchableOpacity key={label} style={styles.settingRow}>
-            <Text>{label}</Text>
-            <ChevronRight size={20} />
-          </TouchableOpacity>
-        ))}
+        <TouchableOpacity
+          key={label}
+          style={styles.settingRow}
+          onPress={() => {
+            if (label === "Manage Storage") {
+              onNavigateTop && onNavigateTop("Storage");
+            }
+          }}
+        >
+          <Text>{label}</Text>
+          <ChevronRight size={20} />
+        </TouchableOpacity>
+))}
       </View>
 
       {/* Version Info */}

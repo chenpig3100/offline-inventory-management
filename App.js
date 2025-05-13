@@ -14,6 +14,8 @@ import InventoryView from './src/views/InventoryView';
 import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import SettingView from './src/views/SettingView';
+import StorageView from './src/views/StorageView';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +51,7 @@ function MainView() {
   if (topView === 'Hint') ContentComponent = HintView;
   else if (topView === 'Announcement') ContentComponent = AnnouncementView;
   else if (topView === 'Setting') ContentComponent = SettingView;
+  else if (topView === 'Storage') ContentComponent = StorageView;
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
@@ -78,7 +81,7 @@ function MainView() {
       onSwitchTab={handleSwitchTab}
       activeTab={activeTab}
     >
-      <ContentComponent key={topView || activeTab} />
+      <ContentComponent key={topView || activeTab}  onNavigateTop={handleTopNav}/>
     </MainLayOut>
   );
 }
