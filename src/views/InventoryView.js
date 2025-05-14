@@ -34,21 +34,35 @@ export default function InventoryView() {
 
   const data = viewType === 'uploaded' ? mockUploaded : mockNotUploaded;
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
+  const renderItem = ({ item }) => {
+    const editable = viewType === 'not_uploaded';
+
+    const content = (
+      <>
+        <Image source={item.image} style={styles.image} />
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.date}>{item.createdAt}</Text>
+        </View>
+      </>
+    );
+
+    return editable ? (
+      <TouchableOpacity
       style={styles.card}
       onPress={() => {
         // navigate to edit view
         console.log('Not develop yet.')
       }}
       >
-        <Image source={item.image} style={styles.image} />
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.date}>{item.createdAt}</Text>
-        </View>
+        {content}
       </TouchableOpacity>
-  );
+    ) : (
+      <View style={[styles.card, { opacity: 0.7 }]}>
+        {content}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
