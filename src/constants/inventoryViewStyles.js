@@ -15,7 +15,7 @@ export default StyleSheet.create({
     switchButton: {
         paddingVertical: 8,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: 10,
         backgroundColor: '#eee'
     },
     activeButton: {
