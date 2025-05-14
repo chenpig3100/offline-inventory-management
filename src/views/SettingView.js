@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Bell, HelpCircle, Settings, ChevronRight } from "lucide-react-native";
+
 
 export default function SettingView({ onNavigateTop  }) {
   const [autoSync, setAutoSync] = useState(false);
@@ -41,7 +41,7 @@ export default function SettingView({ onNavigateTop  }) {
           }}
         >
           <Text>{label}</Text>
-          <ChevronRight size={20} />
+
         </TouchableOpacity>
 ))}
       </View>
