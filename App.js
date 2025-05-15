@@ -5,6 +5,8 @@ import LoginView from "./src/views/LoginView";
 import { NavigationContainer  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth, AuthProvider } from "./src/context/AuthContext";
+import useNetworkSync from "./src/hooks/useNetworkSync";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 // 如果分頁有異動，請記得改address
@@ -81,7 +83,7 @@ function MainView() {
       onSwitchTab={handleSwitchTab}
       activeTab={activeTab}
     >
-      <ContentComponent key={topView || activeTab}  onNavigateTop={handleTopNav}/>
+      <ContentComponent key={topView || activeTab}  onNavigateTop={handleTopNav} onSwitchTab={handleSwitchTab}/>
     </MainLayOut>
   );
 }
@@ -97,9 +99,12 @@ function MainView() {
 // }
 
 export default function App() {
+  useNetworkSync();
   return (
+    <GestureHandlerRootView>
       <NavigationContainer>
         <MainView />
       </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }

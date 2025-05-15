@@ -1,0 +1,728 @@
+{
+    
+    "PUMPS AND COMPRESSORS": {
+        "PUMPS AND ACCESSORIES": [
+        "CENTRIFUGAL PUMPS",
+        "SPECIAL PUMPS",
+        "PERIPHERAL PUMPS",
+        "Reciprocating Pumps",
+        "ROTARY PUMPS",
+        "PUMP PARTS AND ACCESSORIES",
+        "OTHER PUMPS"
+        ],
+        "COMPRESSORS AND ACCESSORIES": [
+        "AXIAL COMPRESSORS",
+        "CENTRIFUGAL COMPRESSORS",
+        "POSITIVE DISPLACEMENT COMPRESSORS",
+        "OTHER COMPRESSORS",
+        "COMPRESSOR PARTS AND ACCESSORIES"
+        ]
+    },
+    "MOBILE EQUIPMENT COMPONENTS": {
+        "FINAL CONTROLS": [
+        "FINAL CONTROLS"
+        ],
+        "CABINS": [
+        "CABINS"
+        ],
+        "TURBO": [
+        "FRONT TURBOS",
+        "REAR TURBOS",
+        "OTHER TURBO"
+        ],
+        "RADIATORS": [
+        "RADIATORS"
+        ],
+        "TORQUE CONVERTERS": [
+        "TORQUE CONVERTERS"
+        ],
+        "SUSPENSIONS": [
+        "FRONT SUSPENSIONS",
+        "REAR SUSPENSIONS"
+        ],
+        "STEERING CYLINDERS": [
+        "STEERING CYLINDERS"
+        ],
+        "LIFTING CYLINDERS": [
+        "LIFTING CYLINDERS"
+        ],
+        "BRAKES": [
+        "FRONT BRAKE DISCS",
+        "REAR BRAKE DISCS"
+        ],
+        "Hoppers": [
+        "IRON HOPPERS",
+        "IRON / RUBBER HOPPERS",
+        "OTHER HOPPERS"
+        ],
+        "OTHER MOBILE EQUIPMENT COMPONENTS": [
+        "OTHER MOBILE EQUIPMENT COMPONENTS"
+        ]
+    },
+    "PLANT COMPONENTS": {
+        "CRUSHERS": [
+        "JAW CRUSHERS",
+        "Gyratory Crushers",
+        "CONE CRUSHERS",
+        "IMPACT CRUSHERS",
+        "OTHER CRUSHER COMPONENTS"
+        ],
+        "SIEVES": [
+        "STATIONARY SCREENING SIEVES",
+        "MOBILE SCREENING SIEVES",
+        "VIBRATING SCREENING SCREENS",
+        "OTHER SIEVES"
+        ],
+        "Concentrators": [
+        "Concentrators"
+        ],
+        "LEACHING": [
+        "LEACHING"
+        ],
+        "AGITATORS": [
+        "AGITATORS"
+        ],
+        "OTHER PLANT COMPONENTS": [
+        "OTHER PLANT COMPONENTS"
+        ]
+    },
+    "FUELS": {
+        "FUELS": [
+        "GASEOUS FUELS",
+        "LIQUID FUELS",
+        "SOLID FUELS",
+        "OILS"
+        ]
+    },
+    "SEALING COMPOUNDS": {
+        "ADHESIVES, GLUES, SEALANTS AND RESINS": [
+        "ADHESIVES",
+        "RESINS",
+        "SEALANTS"
+        ]
+    },
+    "BELTS, CONVEYORS AND ACCESSORIES": {
+        "CONVEYOR BELTS AND ACCESSORIES": [
+        "CONVEYOR BELTS ACCESSORIES",
+        "CONVEYOR BELTS WITH METAL THREAD",
+        "CONVEYOR BELTS WITHOUT METAL THREAD",
+        "OTHER CONVEYOR BELTS",
+        "PULLEYS",
+        "POLES",
+        "ROLLERS AND BELTS"
+        ]
+    },
+    "TRANSMISSION ELEMENTS": {
+        "MECHANICAL TRANSMISSIONS": [
+        "MECHANICAL TRANSMISSION ACCESSORIES",
+        "COUPLINGS",
+        "CHAINS",
+        "TRANSMISSION BELTS",
+        "DIFFERENTIALS",
+        "AXES",
+        "CLUTCHES",
+        "GEARS",
+        "PISTONS",
+        "REDUCERS",
+        "TRANSMISSION ROLLERS",
+        "SPROCKETS",
+        "DRIVE WHEELS",
+        "WORM SCREW",
+        "AUTOMATIC TRANSMISSIONS",
+        "MANUAL TRANSMISSIONS"
+        ]
+    },
+    "FASTENERS AND ACCESSORIES": {
+        "FASTENERS": [
+        "CLAMPS",
+        "ANCHORS",
+        "WASHERS",
+        "KEYS",
+        "RINGS",
+        "GAGS",
+        "RIVETS",
+        "SPRINGS",
+        "NAILS",
+        "OTHER FASTENERS",
+        "PINS",
+        "BOLTS",
+        "PRESSES",
+        "SCREWS",
+        "NUTS"
+        ]
+    },
+    "PACKAGING, CONTAINERS AND STORAGE": {
+        "PACKAGING": [
+        "OTHER PACKAGING MATERIALS"
+        ],
+        "CONTAINERS AND STORAGE": [
+        "STORAGE",
+        "STORAGE BOXES",
+        "Lockers"
+        ]
+    },
+    "EQUIPMENT": {
+        "APPLIANCES": [
+        "OTHER APPLIANCES"
+        ],
+        "ELECTRONIC DEVICES": [
+        "AUDIO",
+        "TELEVISION"
+        ],
+        "FURNITURE": [
+        "MISCELLANEOUS FURNITURE"
+        ]
+    },
+    "DESK EQUIPMENT AND SUPPLIES": {
+        "OFFICE SUPPLIES": [
+        "STATIONERY SUPPLIES"
+        ]
+    },
+    "LABORATORY EQUIPMENT AND SUPPLIES": {
+        "LABORATORY EQUIPMENT": [
+        "OTHER LABORATORY EQUIPMENT"
+        ],
+        "LABORATORY INSTRUMENTS": [
+        "OTHER LABORATORY SUPPLIES"
+        ]
+    },
+    "MEDICAL EQUIPMENT AND SUPPLIES": {
+        "MEDICAL EQUIPMENT": [
+        "MEDICAL EQUIPMENT"
+        ],
+        "MEDICAL SUPPLIES": [
+        "FIRST AID SUPPLIES",
+        "MEDICINES"
+        ]
+    },
+    "MOBILE EQUIPMENT": {
+        "TRUCKS": [
+        "Off-Highway Trucks (OTR)",
+        "RIGID TRUCKS",
+        "ARTICULATED TRUCKS",
+        "OTHER TRUCKS"
+        ],
+        "PALLAS": [
+        "HYDRAULIC SHOVELS",
+        "ELECTRIC SHOVELS",
+        "HYBRID BLADES",
+        "OTHER BLADES"
+        ],
+        "DRILLS": [
+        "UNDERGROUND DRILLING MACHINES",
+        "SURFACE DRILLS",
+        "OTHER DRILLS"
+        ],
+        "CHARGERS": [
+        "WHEEL LOADERS",
+        "TRACK LOADERS",
+        "OTHER CHARGERS"
+        ],
+        "MOTOR GRADERS": [
+        "RIGID MOTOR GRADERS",
+        "ARTICULATED MOTOR GRADERS",
+        "OTHER MOTOR GRADERS"
+        ],
+        "AUXILIARY EQUIPMENT": [
+        "AUXILIARY EQUIPMENT UNDERGROUND MINE",
+        "AUXILIARY EQUIPMENT FOR SURFACE MINE"
+        ],
+        "SCOOP": [
+        "SCOOP DIESEL",
+        "ELECTRIC SCOOPS",
+        "OTHER SCOOP"
+        ]
+    },
+    "MATERIAL HANDLING EQUIPMENT": {
+        "LIFTING ELEMENTS": [
+        "ACCESSORIES LIFTING ELEMENTS",
+        "SMOOTH STEEL CABLES",
+        "ZINC-COATED STEEL CABLES",
+        "STAINLESS STEEL CABLES",
+        "OTHER STEEL CABLES",
+        "SLINGS"
+        ],
+        "ELEVATORS AND CRANES": [
+        "RIGGER",
+        "FREIGHT LIFTS",
+        "MATERIAL HANDLING EQUIPMENT",
+        "CRANES",
+        "DAVITS",
+        "KEYS"
+        ]
+    },
+    "PLANT EQUIPMENT": {
+        "PLANT EQUIPMENT": [
+        "OTHER PLANT EQUIPMENT"
+        ]
+    },
+    "COMPUTER EQUIPMENT AND SUPPLIES": {
+        "COMPUTER ACCESSORIES": [
+        "CPUs",
+        "MONITORS",
+        "OTHER COMPUTER ACCESSORIES",
+        "ELECTRONIC CARDS",
+        "TONERS, INKS AND CARTRIDGES"
+        ],
+        "COMPUTER EQUIPMENT": [
+        "PHOTOCOPIER MACHINES",
+        "PRINTERS AND MULTIFUNCTIONALS",
+        "NOTEBOOKS AND NETBOOKS",
+        "PCS",
+        "MULTIMEDIA PROJECTORS",
+        "SCANNERS"
+        ],
+        "NETWORK ACCESSORIES": [
+        "ANTENNAS"
+        ]
+    },
+    "CLEANING AND CLEANING EQUIPMENT AND SUPPLIES": {
+        "TOILETRIES AND CLEANING SUPPLIES": [
+        "OTHER CLEANING AND TOILETRIES"
+        ],
+        "CLEANING EQUIPMENT": [
+        "CLEANING EQUIPMENT"
+        ]
+    },
+    "INDUSTRIAL SAFETY EQUIPMENT AND SUPPLIES": {
+        "FALL SUPPORT": [
+        "HARNESS",
+        "CABLES AND SHOCK ABSORBERS"
+        ],
+        "SAFETY DEVICES": [
+        "PADLOCKS",
+        "BLOCKING ELEMENTS",
+        "SAFETY ACCESSORIES"
+        ],
+        "FIRE FIGHTING EQUIPMENT": [
+        "FIRE FIGHTING EQUIPMENT ACCESSORIES"
+        ],
+        "INDUSTRIAL SAFETY EQUIPMENT": [
+        "SHOWERS",
+        "RESCUE TEAMS",
+        "EYE WASH",
+        "ALARMS"
+        ],
+        "ANOTHER PERSONAL PROTECTION ELEMENT": [
+        "OTHER PERSONAL PROTECTION ITEMS (PPE)"
+        ],
+        "CLOTHES": [
+        "WORK CLOTHES"
+        ],
+        "SIGNS": [
+        "SAFETY SIGNS"
+        ]
+    },
+    "EXPLOSIVES": {
+        "EXPLOSIVE MATERIALS": [
+        "DETONATORS",
+        "EXPLOSIVES"
+        ]
+    },
+    "FILTERS AND FILTER ACCESSORIES": {
+        "FILTER ACCESSORIES": [
+        "FILTER MESHES",
+        "MEMBRANES",
+        "RETAINERS",
+        "OTHER ACCESSORIES FOR FILTERS"
+        ],
+        "FILTERS": [
+        "OIL FILTERS",
+        "WATER FILTERS",
+        "AIR FILTERS",
+        "FUEL FILTERS",
+        "OTHER FILTERS"
+        ]
+    },
+    "INDUSTRIAL FILTERS AND PURIFIERS": {
+        "PURIFIERS": [
+        "CLEANERS"
+        ]
+    },
+    "TOOLS": {
+        "TOOL ACCESSORIES": [
+        "TOOL BOXES",
+        "OTHER TOOL ACCESSORIES"
+        ],
+        "POWER TOOLS": [
+        "GRINDERS",
+        "OTHER POWER TOOLS",
+        "IMPACT GUNS",
+        "POLISHERS",
+        "RECTIFIERS",
+        "MOUNTAINS",
+        "DRILLS"
+        ],
+        "HYDRAULIC TOOLS": [
+        "HYDRAULIC CUTTERS",
+        "COMPRESSION TOOLS",
+        "OTHER HYDRAULIC TOOLS",
+        "HYDRAULIC PRESSES"
+        ],
+        "HAND TOOLS": [
+        "TOOL ADAPTERS",
+        "OTHER HAND TOOLS"
+        ],
+        "PNEUMATIC TOOLS": [
+        "OTHER PNEUMATIC TOOLS",
+        "PNEUMATIC DRILLS"
+        ]
+    },
+    "MEASURING AND CONTROL INSTRUMENTS": {
+        "INDICATING INSTRUMENTS": [
+        "SENSORS",
+        "OTHER INDICATING INSTRUMENTS"
+        ],
+        "MEASURING INSTRUMENTS": [
+        "OTHER MEASURING INSTRUMENTS"
+        ]
+    },
+    "LUBRICANTS AND OTHER SPECIFIC PRODUCTS": {
+        "LUBRICANTS AND OTHER SPECIFIC PRODUCTS": [
+        "FATS",
+        "LUBRICANTS"
+        ]
+    },
+    "INDUSTRIAL MACHINERY AND EQUIPMENT": {
+        "DRILLING STEELS": [
+        "DRILL BARS",
+        "OTHER DRILLING",
+        "TRICONES"
+        ],
+        "INDUSTRIAL EQUIPMENT": [
+        "BOILERS",
+        "FLOTATION CELLS",
+        "Dumpers",
+        "THICKENERS",
+        "INDUSTRIAL MILLS",
+        "OTHER INDUSTRIAL EQUIPMENT",
+        "BURNERS",
+        "BLOWERS",
+        "TURBINES"
+        ],
+        "INDUSTRIAL MACHINERY": [
+        "CONSTRUCTION",
+        "RAILWAYS",
+        "INDUSTRIAL MAINTENANCE",
+        "MARITIME",
+        "INDUSTRIAL DRILLING",
+        "INDUSTRIAL PROCESSES"
+        ],
+        "GRINDING MEDIA": [
+        "GRINDING BARS",
+        "GRINDING BALLS"
+        ],
+        "INDUSTRIAL PARTS": [
+        "ACCESSORIES PARTS MOBILE EQUIPMENT",
+        "ACCUMULATORS",
+        "SHOCK ABSORBERS",
+        "HOUSINGS",
+        "CYLINDERS",
+        "BRAKE DISCS",
+        "BRAKES",
+        "OTHER INDUSTRIAL PARTS",
+        "DRUMS"
+        ],
+        "LININGS AND WEAR PARTS": [
+        "WEAR ELEMENTS",
+        "OTHER WEAR SPARE PARTS",
+        "WEAR COATINGS",
+        "CORMO MOLI COATINGS",
+        "HIGH CHROME COATINGS",
+        "IRON COATINGS",
+        "IRON/RUBBER COATINGS",
+        "RUBBER COATINGS",
+        "OTHER COATINGS"
+        ]
+    },
+    "CONSTRUCTION MATERIALS": {
+        "HARDWARE FOR CONSTRUCTION": [
+        "OTHER CONSTRUCTION HARDWARE MATERIALS",
+        "WIRES",
+        "TIGHTS",
+        "REFRACTORIES"
+        ],
+        "STRUCTURAL MATERIALS, BASIC FORMS": [
+        "ANGLES",
+        "BARS",
+        "SHEETS",
+        "OTHER STRUCTURAL MATERIALS, BASIC FORMS"
+        ]
+    },
+    "ELECTRICAL MATERIALS AND EQUIPMENT": {
+        "ELECTRICAL ACCESSORIES": [
+        "OTHER ELECTRICAL HARDWARE MATERIALS"
+        ],
+        "LIGHTING ACCESSORIES": [
+        "CAPACITORS"
+        ],
+        "INSULATORS": [
+        "INSULATORS"
+        ],
+        "ELECTRIC PUMPS": [
+        "ELECTRIC PUMPS"
+        ],
+        "CHANNELS": [
+        "GUTTERS",
+        "BASKETS",
+        "CONDUITS",
+        "LADDERS",
+        "FLEXIBLE",
+        "Moldings",
+        "OTHER CHANNELS"
+        ],
+        "AIR CONDITIONING": [
+        "AIR-CONDITIONING",
+        "DRIVERS",
+        "REFRIGERATION UNITS"
+        ],
+        "ELECTRICAL CONDUCTORS": [
+        "LOW VOLTAGE ELECTRICAL CABLES UP TO 750 V",
+        "LOW VOLTAGE ELECTRICAL CABLES UP TO 1000 V",
+        "MEDIUM VOLTAGE ELECTRICAL CABLES",
+        "HIGH VOLTAGE ELECTRICAL CABLES",
+        "OTHER ELECTRICAL CABLES",
+        "OTHER ELECTRICAL CONDUCTORS"
+        ],
+        "CONVERTERS AND INVERTERS": [
+        "STARTERS",
+        "CONVERTERS",
+        "INVESTORS"
+        ],
+        "POWER SOURCES": [
+        "BATTERIES",
+        "SOURCES OF POWER",
+        "UPS"
+        ],
+        "LIGHTNING": [
+        "LIGHTING FIXTURES"
+        ],
+        "BOARDS, CABINETS AND BOXES": [
+        "ELECTRICAL BOXES",
+        "CABINETS",
+        "CONTROL PANELS"
+        ],
+        "TERMINALS AND ACCESSORIES": [
+        "MARKERS",
+        "TERMINALS"
+        ],
+        "TRANSFORMERS": [
+        "INSTRUMENT TRANSFORMERS",
+        "POWER TRANSFORMERS",
+        "OTHER TRANSFORMERS"
+        ],
+        "GENERATORS": [
+        "MOBILE GENERATORS",
+        "STATIONARY GENERATORS",
+        "OTHER GENERATORS"
+        ],
+        "ELECTRICAL PROTECTIONS": [
+        "FUSES",
+        "RELAYS"
+        ],
+        "OTHER ELECTRICAL EQUIPMENT": [
+        "OTHER ELECTRICAL EQUIPMENT"
+        ],
+        "OTHER ELECTRICAL COMPONENTS": [
+        "OTHER ELECTRICAL COMPONENTS"
+        ]
+    },
+    "ELECTRONIC MATERIALS AND EQUIPMENT": {
+        "TELEPHONE AND TELEGRAPH EQUIPMENT": [
+        "TELECOMMUNICATIONS EQUIPMENT ACCESSORIES",
+        "TELECOMMUNICATIONS EQUIPMENT"
+        ],
+        "ELECTRONIC MATERIALS": [
+        "COILS",
+        "CAPACITORS",
+        "DIODES",
+        "ELECTRONIC MODULES",
+        "OTHER ELECTRONIC MATERIALS",
+        "RESISTANCES",
+        "SEMICONDUCTORS",
+        "CARDS",
+        "TRANSISTORS"
+        ],
+        "AUDIO": [
+        "AUDIO ACCESSORIES"
+        ],
+        "MEDIUM VOLTAGE CELL": [
+        "DUPLEX MEDIUM VOLTAGE CELL",
+        "MEDIUM VOLTAGE CELL PROTECTION",
+        "MEDIUM VOLTAGE TRANSFORMER CELL",
+        "MEDIUM VOLTAGE TRIPLEX CELL",
+        "MEDIUM VOLTAGE MEASURING CELL",
+        "OTHER MEDIUM VOLTAGE CELLS"
+        ]
+    },
+    "MOTORS AND ACCESSORIES": {
+        "ENGINE ACCESSORIES": [
+        "ENGINE ACCESSORIES"
+        ],
+        "ENGINES": [
+        "STATORS",
+        "GEARMOTORS",
+        "COMBUSTION ENGINES",
+        "Alternating Current Electric Motors",
+        "DIRECT CURRENT ELECTRIC MOTORS",
+        "HYDRAULIC MOTORS",
+        "ROTORS",
+        "SERVOMOTORS",
+        "OTHER ELECTRIC MOTORS",
+        "OTHER ENGINES"
+        ]
+    },
+    "TIRES, RIMS AND ACCESSORIES": {
+        "TIRES AND RIMS": [
+        "TIRES",
+        "TIRES"
+        ]
+    },
+    "INDUSTRIAL PAPERS": {
+        "COATED AND UNCOATED PAPERS": [
+        "OTHER INDUSTRIAL PAPERS"
+        ]
+    },
+    "BEARINGS AND BUSHINGS": {
+        "BUSHINGS": [
+        "BUSHINGS"
+        ],
+        "BEARINGS": [
+        "BEARING ACCESSORIES",
+        "BEARINGS"
+        ]
+    },
+    "SEALS AND PACKINGS": {
+        "PACKINGS": [
+        "PACKINGS"
+        ],
+        "STAMPS": [
+        "HYDRAULIC SEALS",
+        "MECHANICAL SEALS",
+        "RETAINERS"
+        ]
+    },
+    "WELDING, CUTTING AND ABRASIVES": {
+        "WELDING": [
+        "WELDING ELECTRODES",
+        "WELDING COMPONENTS",
+        "WELDING EQUIPMENT"
+        ],
+        "ABRASIVES": [
+        "ABRASIVES"
+        ]
+    },
+    "OTHER INDUSTRIAL PARTS": {
+        "WELDING": [
+        "SOLDERING PASTES"
+        ]
+    },
+    "PIPES, DUCTS, DUCTS AND FITTINGS": {
+        "PIPES": [
+        "STEEL PIPES",
+        "HDPE PIPES",
+        "PVC PIPES",
+        "PPR PIPES",
+        "COPPER PIPES",
+        "OTHER PIPES"
+        ],
+        "DUCTS": [
+        "DUCTS"
+        ],
+        "FITTING": [
+        "REDUCTIONS",
+        "PIPING ACCESSORIES, DUCTS, TUBES AND FITTINGS",
+        "Elbows",
+        "FLANGES",
+        "EXPANSION JOINTS",
+        "SUPPORTS",
+        "TAPAS"
+        ],
+        "HOSES": [
+        "HOSE FITTINGS",
+        "FLEXIBLE HOSES",
+        "HOSES"
+        ],
+        "TUBES": [
+        "TUBES"
+        ]
+    },
+    "VALVES, ACTUATORS AND ACCESSORIES": {
+        "VALVE ACCESSORIES": [
+        "VALVE ACCESSORIES"
+        ],
+        "ACTUATORS AND ACCESSORIES": [
+        "ACTUATOR ACCESSORIES",
+        "ACTUATORS"
+        ],
+        "VALVES": [
+        "GATE VALVES",
+        "CONTROL VALVES",
+        "EXPANSION VALVES",
+        "FLOAT VALVES",
+        "OTHER INDUSTRIAL PARTS",
+        "SOLENOID VALVES",
+        "OTHER VALVES",
+        "OTHER ACCESSORIES VALVES"
+        ],
+        "OTHER INDUSTRIAL PARTS": [
+        "DIAPHRAGM VALVES"
+        ]
+    },
+    "CONTAINERS": {
+        "CONTAINERS": [
+        "10-FOOT CONTAINERS",
+        "20-FOOT CONTAINERS",
+        "40-FOOT CONTAINERS",
+        "REEFER CONTAINER",
+        "OPEN TOP CONTAINERS",
+        "HUGH CUBE CONTAINERS",
+        " OTHER CONTAINERS"
+        ]
+    },
+    "SCRAP": {
+        "SCRAP": [
+        "EXC. SCRAP IRON",
+        "EXC. STEEL BALLS",
+        "BRONZE EXCELLENCE",
+        "EXC. ELECTRICAL CABLES",
+        "EXC. COPPER",
+        "EXC. IRON RUBBER",
+        "EXC. HDPE",
+        "EXC. PVC",
+        "EXC. MANGANESE",
+        "EXC. CROMO MOLI",
+        "EXC. HIGH CHROME",
+        "EXC. STAINLESS STEEL",
+        "EXC. DRIPPERS",
+        "EXC. ELECTRIC MOTORS",
+        "EXC. WOOD"
+        ]
+    },
+    "CHEMICALS": {
+        "CHEMICAL AGENTS": [
+        "ACIDS",
+        "CHEMICAL ADDITIVES",
+        "CHEMICAL BASES",
+        "CHEMICALS",
+        "SOLVENTS"
+        ],
+        "EXCIPIENTS": [
+        "BINDERS",
+        "DISINTEGRATORS",
+        "COATERS"
+        ],
+        "GASES": [
+        "OTHER GASES"
+        ]
+    },
+    "PAINTS, PRIMERS AND FINISHES": {
+        "PAINTINGS": [
+        "PAINTINGS",
+        "PAINT ADDITIVES"
+        ],
+        "BASES": [
+        "SOLVENT BASES"
+        ]
+    }
+}

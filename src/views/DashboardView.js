@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAllProducts, initProductTable, getDBConnection } from '../modules/product';
 
-export default function Dashboard() {
+
+
+export default function Dashboard({ onSwitchTab }) {
   const [totalItems, setTotalItems] = useState(0);
   const [recentItems, setRecentItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
 
-  useEffect(() => {
-    const setup = async () => {
-      try {
-        await getDBConnection();         // Ensure DB is ready
-        await initProductTable();        // Ensure table exists
-        const products = await getAllProducts();
-        setTotalItems(products.length);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      const setup = async () => {
+        setLoading(true);
+        try {
+          await getDBConnection();         // Ensure DB is ready
+          await initProductTable();        // Ensure table exists
+          const products = await getAllProducts();
+          setTotalItems(products.length);
 
-        // most recent (sort using id)
-        const recent = [...products].sort((a, b) => b.id - a.id).slice(0, 5);
-        setRecentItems(recent);
-      } catch (err) {
-        console.error('Error loading dashboard:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+          // most recent (sort using id)
+          const recent = [...products].sort((a, b) => b.id - a.id).slice(0, 5);
+          setRecentItems(recent);
+        } catch (err) {
+          console.error('Error loading dashboard:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    setup();
-  }, []);
+      setup();
+    }, [])
+  );
 
   const renderItem = ({ item }) => (
     <View style={{
@@ -74,7 +80,7 @@ export default function Dashboard() {
           alignItems: 'center',
           marginTop: 20
         }}
-        onPress={() => navigation.navigate('Inventory')}
+        onPress={() => onSwitchTab('Inventory')}
       >
         <Text style={{ color: '#fff', fontWeight: 'bold' }}>View All</Text>
       </TouchableOpacity>

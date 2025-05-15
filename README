@@ -3,3 +3,21 @@ npm install
 npx expo install axios
 npx expo install expo-sqlite
 npx expo install @react-native-async-storage/async-storage
+
+## Additional install (Shane)
+npm install @react-native-community/netinfo
+npx expo install expo-image-picker
+npm install react-native-dropdown-picker
+npx expo install react-native-gesture-handler react-native-reanimated
+
+## Publish
+npm install -g eas-cli
+npx expo login (if needed)
+npx eas update --branch preview
+
+(if needed)
+npx eas update:configure
+npx eas update --branch preview
+
+(after each update)
+npx eas update --branch preview

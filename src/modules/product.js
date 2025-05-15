@@ -2,111 +2,91 @@ import * as SQLite from 'expo-sqlite';
 
 let db;
 
-export function getDBConnection() {
+// Get or initialize the database connection
+export async function getDBConnection() {
   if (!db) {
-    db = SQLite.openDatabase('inventory.db');
+    db = await SQLite.openDatabaseAsync('inventory.db');
   }
   return db;
 }
 
-//initial table
-export const initProductTable = () => {
-    db.transaction(tx => {
-        tx.executeSql(
-            `CREATE TABLE IF NOT EXISTS product (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                description TEXT,
-                amount INTEGER,
-                unit TEXT,
-                part_no TEXT,
-                manufacturer TEXT,
-                category_id INTEGER,
-                condition TEXT,
-                country TEXT
-            );`
-        );
-    });
-};
+// Create the 'product' table if it doesn't exist
+export async function initProductTable() {
+  const db = await getDBConnection();
 
-//get all product
-export const getAllProducts = (callback) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'SELECT * FROM product',
-            [],
-            (_, { row }) => callback(row._array),
-            (_, error) => {
-                console.log('Error fetching products', error);
-                return false;
-            }
-        );
-    });
-};
+  // DELETE DB, ONLY USE WHEN THERE IS CHANGE IN DB
+  //await db.execAsync(`DROP TABLE IF EXISTS product`);
 
-//get product by ID
-export const getProductById = (id, callback) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'SELECT * FROM product WHERE id = ?',
-            [id],
-            (_, { rows }) => callback(rows._array[0]),
-            (_, error) => {
-                console.log('Error fetch product by id', error);
-                return false;
-            }
-        );
-    });
-};
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS product (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      description TEXT,
+      amount INTEGER,
+      unit TEXT,
+      part_no TEXT,
+      manufacturer TEXT,
+      category_id INTEGER,
+      condition TEXT,
+      country TEXT,
+      image TEXT,
+      is_synced INTEGER DEFAULT 0,
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
+  `);
+}
 
-// Create Product
+// Get all products
+export async function getAllProducts() {
+  const db = await getDBConnection();
+  return await db.getAllAsync('SELECT * FROM product');
+}
 
-export const insertProduct = (product, callback) => {
-    const {name, description, amount, unit, part_no, manufacturer, category_id, condition, country } = product;
-    db.transaction(tx => {
-        tx.executeSql(
-            `INSERT INTO product (name, description, amount, unit, part_no, manufacturer, category_id, condition, country)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [name, description, amount, unit, part_no, manufacturer, category_id, condition, country],
-            (_, result) => callback(result.insertId),
-            (_, error) => {
-                console.log('Insert failed', error);
-                return false;
-            }
-        );
-    });
-};
+// Get a product by ID
+export async function getProductById(id) {
+  const db = await getDBConnection();
+  const result = await db.getFirstAsync('SELECT * FROM product WHERE id = ?', [id]);
+  return result;
+}
 
-// Update Product
-export const updateProduct = (product, callback) => {
-    const { id, name, description, amount, unit, part_no, manufacturer, category_id, condition, country } = product;
-    db.transaction(tx => {
-        tx.executeSql(
-            `UPDATE product SET
-                name = ?, description = ?, amount = ?, unit = ?,
-                part_no = ?, manufacturer = ?, category_id = ?,
-                condition = ?, country = ?
-                WHERE id = ?`,
-                [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, id],
-                (_, result) => callback(result.rowsAffected),
-                (_, error) => {
-                    console.log('Update failed', error);
-                    return false;
-                }
-        );
-    });
-};
+// Insert a new product
+export async function insertProduct(product) {
+  const {
+    name, description, amount, unit, part_no,
+    manufacturer, category_id, condition, country, image
+  } = product;
 
-export const deleteProduct = (id, callback) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'DELETE FROM product WHERE id = ?',
-            [id],
-            (_, result) => callback(result.rowsAffected),
-            (_, error) => {
-                console.log('Delete failed', error);
-                return false;
-            }
-        );
-    });
-};
+  const db = await getDBConnection();
+  const result = await db.runAsync(
+    `INSERT INTO product (name, description, amount, unit, part_no, manufacturer, category_id, condition, country, image, is_synced, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, datetime('now'))`,
+    [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, image]
+  );
+  return result.lastInsertRowId;
+}
+
+// Update an existing product
+export async function updateProduct(product) {
+  const {
+    id, name, description, amount, unit, part_no,
+    manufacturer, category_id, condition, country
+  } = product;
+
+  const db = await getDBConnection();
+  const result = await db.runAsync(
+    `UPDATE product SET
+      name = ?, description = ?, amount = ?, unit = ?,
+      part_no = ?, manufacturer = ?, category_id = ?,
+      condition = ?, country = ?
+     WHERE id = ?`,
+    [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, id]
+  );
+  return result.rowsAffected;
+}
+
+// Delete a product by ID
+export async function deleteProduct(id) {
+  const db = await getDBConnection();
+  const result = await db.runAsync('DELETE FROM product WHERE id = ?', [id]);
+  return result.rowsAffected;
+}
