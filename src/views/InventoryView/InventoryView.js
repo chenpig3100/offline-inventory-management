@@ -1,7 +1,7 @@
 //Bryan
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import React, { useState} from 'react';
-import styles from "../constants/inventoryViewStyles"
+import styles from "../../constants/inventoryViewStyles"
 
 
 // for mock test
@@ -10,13 +10,13 @@ const mockUploaded = [
     id: 1,
     name: 'Truck',
     createdAt: '2025/09/04 10:00:00',
-    image: require('../assets/icons/inventorylist.png')
+    image: require('../../assets/icons/inventorylist.png')
   },
   {
     id: 2,
     name: 'Train',
     createdAt: '2025/09/05 10:00:00',
-    image: require('../assets/icons/inventorylist.png')
+    image: require('../../assets/icons/inventorylist.png')
   }
 ];
 
@@ -25,11 +25,11 @@ const mockNotUploaded = [
     id: 3,
     name: 'Bus',
     createdAt: '2025/10/11 15:00:00',
-    image: require('../assets/icons/inventorylist.png')
+    image: require('../../assets/icons/inventorylist.png')
   }
 ];
 
-export default function InventoryView() {
+export default function InventoryView({ onEditProduct }) {
   const [viewType, setViewType] = useState('uploaded');
 
   const data = viewType === 'uploaded' ? mockUploaded : mockNotUploaded;
@@ -50,10 +50,7 @@ export default function InventoryView() {
     return editable ? (
       <TouchableOpacity
       style={styles.card}
-      onPress={() => {
-        // navigate to edit view
-        console.log('Not develop yet.')
-      }}
+      onPress={() => { onEditProduct(item) }}
       >
         {content}
       </TouchableOpacity>

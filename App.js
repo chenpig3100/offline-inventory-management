@@ -10,11 +10,11 @@ import { useAuth, AuthProvider } from "./src/context/AuthContext";
 // 如果分頁有異動，請記得改address
 import DashboardView from './src/views/DashboardView';
 import CreateView from './src/views/CreateView';
-import InventoryView from './src/views/InventoryView';
 import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import SettingView from './src/views/SettingView';
 import StorageView from './src/views/StorageView';
+import InventoryWrapper from "./src/views/InventoryView/InventoryWrapper";
 
 
 const Stack = createNativeStackNavigator();
@@ -55,7 +55,7 @@ function MainView() {
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
-    else if (activeTab === 'Inventory') ContentComponent = InventoryView;
+    else if (activeTab === 'Inventory') ContentComponent = InventoryWrapper;
   }
 
 
