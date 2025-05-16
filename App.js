@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MainLayOut from "./src/components/NavSwitchBar";
-//import { initProductTable, getAllProducts } from "./src/modules/product";
+import { initProductTable, getAllProducts } from "./src/modules/product";
 import LoginView from "./src/views/LoginView";
 import { NavigationContainer  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
