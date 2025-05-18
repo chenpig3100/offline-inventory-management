@@ -25,7 +25,7 @@ export default StyleSheet.create({
         position: 'relative',
         marginBottom:20
     },
-    Image: {
+    image: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
@@ -33,7 +33,25 @@ export default StyleSheet.create({
     },
     buttonRow: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 20
+        justifyContent: 'space-between',
+        marginTop: 12,
+        paddingHorizontal: 20
+    },
+    button: {
+        flex: 1,
+        paddingVertical: 10,
+        marginHorizontal: 6,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 8,
+        backgroundColor: '#74E8FF',
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: 16
+    },
+    buttonSecondary: {
+        backgroundColor: '#8E8E8E'
     }
 });
