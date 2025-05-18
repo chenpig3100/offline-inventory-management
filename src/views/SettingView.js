@@ -38,6 +38,15 @@ export default function SettingView({ onNavigateTop  }) {
             if (label === "Manage Storage") {
               onNavigateTop && onNavigateTop("Storage");
             }
+            else if (label === "FAQ") {
+              onNavigateTop && onNavigateTop("FAQ");
+            }
+            else if (label === "Privacy Policy") {
+              onNavigateTop && onNavigateTop("Privacy Policy");
+            }
+            else if (label === "Log Out") {
+              onNavigateTop && onNavigateTop("Log Out");
+            }
           }}
         >
           <Text>{label}</Text>

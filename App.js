@@ -15,7 +15,8 @@ import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import SettingView from './src/views/SettingView';
 import StorageView from './src/views/StorageView';
-
+import FAQView from "./src/views/FAQView";
+import PricayPolicyView from "./src/views/PrivacyPolicyView";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,8 @@ function MainView() {
   else if (topView === 'Announcement') ContentComponent = AnnouncementView;
   else if (topView === 'Setting') ContentComponent = SettingView;
   else if (topView === 'Storage') ContentComponent = StorageView;
+  else if (topView === 'FAQ') ContentComponent = FAQView;
+  else if (topView === 'Privacy Policy') ContentComponent = PricayPolicyView;
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
