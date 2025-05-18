@@ -33,6 +33,12 @@ export default StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center'
     },
+    deleteButton: {
+        width: 24,
+        height: 24,
+        marginHorizontal: 8,
+        tintColor: 'red'
+    },
     image: {
         width: 64,
         height: 64,

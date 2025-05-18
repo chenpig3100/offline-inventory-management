@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import MainLayOut from "./src/components/NavSwitchBar";
-//import { initProductTable, getAllProducts } from "./src/modules/product";
+import { initProductTable, getAllProducts } from "./src/modules/product";
 import LoginView from "./src/views/LoginView";
 import { NavigationContainer  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth, AuthProvider } from "./src/context/AuthContext";
+import useNetworkSync from "./src/hooks/useNetworkSync";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 // 如果分頁有異動，請記得改address
 import DashboardView from './src/views/DashboardView';
 import CreateView from './src/views/CreateView';
-import InventoryView from './src/views/InventoryView';
 import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import SettingView from './src/views/SettingView';
 import StorageView from './src/views/StorageView';
+import InventoryWrapper from "./src/views/InventoryView/InventoryWrapper";
 import FAQView from "./src/views/FAQView";
 import PricayPolicyView from "./src/views/PrivacyPolicyView";
 
@@ -58,7 +60,7 @@ function MainView() {
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
-    else if (activeTab === 'Inventory') ContentComponent = InventoryView;
+    else if (activeTab === 'Inventory') ContentComponent = InventoryWrapper;
   }
 
 
@@ -84,7 +86,7 @@ function MainView() {
       onSwitchTab={handleSwitchTab}
       activeTab={activeTab}
     >
-      <ContentComponent key={topView || activeTab}  onNavigateTop={handleTopNav}/>
+      <ContentComponent key={topView || activeTab}  onNavigateTop={handleTopNav} onSwitchTab={handleSwitchTab}/>
     </MainLayOut>
   );
 }
@@ -100,9 +102,12 @@ function MainView() {
 // }
 
 export default function App() {
+  useNetworkSync();
   return (
+    <GestureHandlerRootView>
       <NavigationContainer>
         <MainView />
       </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
