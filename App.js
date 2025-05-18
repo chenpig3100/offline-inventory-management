@@ -14,11 +14,9 @@ import DashboardView from './src/views/DashboardView';
 import CreateView from './src/views/CreateView';
 import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
-import SettingView from './src/views/SettingView';
-import StorageView from './src/views/StorageView';
 import InventoryWrapper from "./src/views/InventoryView/InventoryWrapper";
-import FAQView from "./src/views/FAQView";
-import PricayPolicyView from "./src/views/PrivacyPolicyView";
+import SettingWrapper from './src/views/SettingView/SettingWrapper';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -53,10 +51,7 @@ function MainView() {
 
   if (topView === 'Hint') ContentComponent = HintView;
   else if (topView === 'Announcement') ContentComponent = AnnouncementView;
-  else if (topView === 'Setting') ContentComponent = SettingView;
-  else if (topView === 'Storage') ContentComponent = StorageView;
-  else if (topView === 'FAQ') ContentComponent = FAQView;
-  else if (topView === 'Privacy Policy') ContentComponent = PricayPolicyView;
+  else if (topView === 'Setting') ContentComponent = SettingWrapper;
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
