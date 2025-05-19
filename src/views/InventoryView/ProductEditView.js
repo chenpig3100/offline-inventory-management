@@ -16,7 +16,7 @@ export default function ProductEditView({ product, onBack }) {
         manufacturer: product?.manufacturer || '',
         condition: product?.condition || '',
         country: product?.country || '',
-        partNo: product?.partNo || '',
+        partNo: product?.part_no || '',
         segment: '',
         family: '',
         categoryName: '',

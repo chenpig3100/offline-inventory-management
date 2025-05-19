@@ -158,3 +158,9 @@ export async function deleteProduct(id) {
     return 0;
   }
 }
+
+// Get Async Data
+export async function markAllAsSynced() {
+  const db = await getDBConnection();
+  return await db.runAsync(`UPDATE product SET is_synced = 1 WHERE is_synced = 0`);
+}

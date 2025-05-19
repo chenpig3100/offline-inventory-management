@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Platform } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { AntDesign } from "@expo/vector-icons";
-import styles from "../constants/storageViewStyles";
+import styles from "../../constants/storageViewStyles";
 
 export default function StorageView({ onNavigateTop }) {
   const [selectedHistory, setSelectedHistory] = useState("1");

@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import styles from "../constants/settingViewStyles";
+import styles from "../../constants/settingViewStyles";
 
 
 export default function SettingView({ onNavigateTop  }) {
@@ -38,6 +38,15 @@ export default function SettingView({ onNavigateTop  }) {
           onPress={() => {
             if (label === "Manage Storage") {
               onNavigateTop && onNavigateTop("Storage");
+            }
+            else if (label === "FAQ") {
+              onNavigateTop && onNavigateTop("FAQ");
+            }
+            else if (label === "Privacy Policy") {
+              onNavigateTop && onNavigateTop("Privacy");
+            }
+            else if (label === "Log Out") {
+              onNavigateTop && onNavigateTop("Login");
             }
           }}
         >
