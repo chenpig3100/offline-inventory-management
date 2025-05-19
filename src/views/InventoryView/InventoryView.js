@@ -1,7 +1,7 @@
 //Bryan
 import { View, Text, TouchableOpacity, FlatList, Image, Alert, ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { getAllProducts, initProductTable, getDBConnection, deleteProduct } from '../../modules/product';
+import { getAllProducts, initProductTable, getDBConnection, deleteProduct, markAllAsSynced } from '../../modules/product';
 import React, { useCallback, useState} from 'react';
 import styles from "../../constants/inventoryViewStyles"
 import { FadeIn } from 'react-native-reanimated';
@@ -47,6 +47,18 @@ export default function InventoryView({ onEditProduct }) {
         }}
       ]
     ); 
+  };
+
+  const handleManualUpload = async () => {
+    try {
+      await markAllAsSynced();
+      const refreshed = await getAllProducts();
+      setData(refreshed);
+      Alert.alert('Success', 'All items marked as uploaded.');
+    } catch (err) {
+      console.error('Manual upload failed:', err);
+      Alert.alert('Error', 'Failed to update items.');
+    }
   };
 
   const renderItem = ({ item }) => {
@@ -133,6 +145,22 @@ export default function InventoryView({ onEditProduct }) {
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 100}}
         />
+      
+      {/* Upload Button */}
+      {viewType === 'not_uploaded' && (
+        <View style={{ padding: 16 }}>
+          <TouchableOpacity
+            onPress={handleManualUpload}
+              style={{
+                backgroundColor: '#007AFF',
+                padding: 12,
+                borderRadius: 8,
+                alignItems: 'center'
+              }}>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>Manually Upload</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
