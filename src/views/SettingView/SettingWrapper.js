@@ -4,11 +4,15 @@ import StorageView from "./StorageView";
 import FAQView from "./FAQView";
 import PrivacyPolicyView from "./PrivacyPolicyView";
 
-export default function SettingWrapper() {
+export default function SettingWrapper({ onForceLogout }) {
   const [subPage, setSubPage] = useState("Main");
 
   const navigateTo = (target) => {
-    setSubPage(target);
+    if (target === "Login") {
+      onForceLogout && onForceLogout(); 
+    } else {
+      setSubPage(target);
+    }
   };
 
   const navigateBack = () => {

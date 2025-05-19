@@ -46,7 +46,7 @@ export default function SettingView({ onNavigateTop  }) {
               onNavigateTop && onNavigateTop("Privacy");
             }
             else if (label === "Log Out") {
-              onNavigateTop && onNavigateTop("Log Out");
+              onNavigateTop && onNavigateTop("Login");
             }
           }}
         >
