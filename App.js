@@ -51,7 +51,17 @@ function MainView() {
 
   if (topView === 'Hint') ContentComponent = HintView;
   else if (topView === 'Announcement') ContentComponent = AnnouncementView;
-  else if (topView === 'Setting') ContentComponent = SettingWrapper;
+  else if (topView === 'Setting'){
+  ContentComponent = (props) => (
+    <SettingWrapper
+      onForceLogout={() => {
+        setTopView(null);              
+        setActiveTab("Dashboard");    
+      }}
+      {...props}
+    />
+  );
+}
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;
