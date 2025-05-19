@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform, StatusBar, Image } from "react-native";
 import styles from '../constants/navSwitchBarStyles';
+import HintOverlay from './HintOverlay';
 
 export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activeTab }) {
+    // Hint Overlay 狀態
+    const [showHint, setShowHint] = useState(false);
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
@@ -10,7 +13,7 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
                 <View style={styles.navBar}>
                     <Text style={styles.title}>INEXLINK</Text>
                     <View style={styles.topRightButtons}>
-                        <TouchableOpacity onPress={() => onNavigateTop('Hint')}>
+                        <TouchableOpacity onPress={() => setShowHint(true)}>
                             <Image source={require('../assets/icons/help.png')} style={styles.iconImage} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => onNavigateTop('Announcement')}>
@@ -35,7 +38,6 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
                             />
                             <Text style={activeTab === 'Dashboard' ? styles.activeLabel : styles.label}>Dashboard</Text>
                         </View>
-                        
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => onSwitchTab('Create')}>
                         <View style={styles.tabItem}>
@@ -45,7 +47,6 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
                             />
                             <Text style={activeTab === 'Create' ? styles.activeLabel : styles.label}>Create</Text>
                         </View>
-                        
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => onSwitchTab('Inventory')}>
                         <View style={styles.tabItem}>
@@ -55,10 +56,13 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
                             />
                             <Text style={activeTab === 'Inventory' ? styles.activeLabel : styles.label}>Inventory</Text>
                         </View>
-                        
                     </TouchableOpacity>
                 </View>
             </View>
+            {/* bottomBar 結束 */}
+            {showHint && (
+                <HintOverlay onClose={() => setShowHint(false)} />
+            )}
         </SafeAreaView>
     );
 }

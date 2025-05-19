@@ -1,4 +1,4 @@
-//Vivian
+//Vivian 這邊不用了已經插進navswitch裡了
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 

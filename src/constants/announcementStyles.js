@@ -1,32 +1,42 @@
 // constants/announcementStyles.js
-import { StyleSheet } from 'react-native';
-
-export const announcementStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#fff',
-    flexGrow: 1,
+    padding: 16,
+    backgroundColor: '#F9F9F9',
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   card: {
-    backgroundColor: '#f5f5f5',
-    borderRadius: 10,
+    backgroundColor: '#EFEFEF',
+    borderRadius: 12,
     padding: 16,
     marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
     elevation: 2,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 6,
+    color: '#333',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 6,
   },
   date: {
-    fontSize: 12,
+    marginLeft: 6,
     color: 'gray',
-    marginBottom: 8,
+    fontSize: 12,
   },
   content: {
-    fontSize: 15,
-    lineHeight: 20,
+    color: '#444',
+    fontSize: 14,
   },
 });
-
