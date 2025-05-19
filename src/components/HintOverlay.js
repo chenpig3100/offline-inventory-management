@@ -59,18 +59,18 @@ export default function HintOverlay({ onClose }) {
   return (
     <TouchableWithoutFeedback onPress={nextStep}>
       <View style={styles.overlay}>
-        {/* 半透明遮罩 */}
+        {/* dimbackground */}
         <View style={styles.dimBackground} />
 
-        {/* 高亮提示邊框 */}
+        {/* highlightbox */}
         <View style={[styles.highlightBox, highlightBox]} />
 
-        {/* 說明框 */}
+        {/* tooltipPos */}
         <View style={[styles.tooltip, tooltipPos]}>
           <Text style={styles.tooltipText}>{message}</Text>
         </View>
 
-        {/* 關閉按鈕 */}
+        {/* closeButton */}
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeText}>✕</Text>
         </TouchableOpacity>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   closeText: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: 'bold',
   },
 });

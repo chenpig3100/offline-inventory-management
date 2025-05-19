@@ -7,7 +7,7 @@ export default function AnnouncementScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/announcements') // 這邊換成你的 API 位址
+    fetch('http://localhost:3000/announcements') // Change to API
       .then((response) => response.json())
       .then((data) => {
         setAnnouncements(data);

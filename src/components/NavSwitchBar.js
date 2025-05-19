@@ -4,7 +4,7 @@ import styles from '../constants/navSwitchBarStyles';
 import HintOverlay from './HintOverlay';
 
 export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activeTab }) {
-    // Hint Overlay 狀態
+    // Hint Overlay 
     const [showHint, setShowHint] = useState(false);
     return (
         <SafeAreaView style={styles.safeArea}>
