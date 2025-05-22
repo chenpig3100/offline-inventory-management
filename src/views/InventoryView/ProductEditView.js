@@ -46,7 +46,7 @@ export default function ProductEditView({ product, onBack }) {
             setForm(f => ({ ...f, image: uri }));
         }
     };
-
+    
     // Open photo library
     const handlePickImage = async () => {
         const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -58,6 +58,55 @@ export default function ProductEditView({ product, onBack }) {
             setForm(f => ({ ...f, image: uri }));
         }
     };
+    
+    /*
+    useEffect(() => {
+    // 根據 category_id 反查名稱
+    if (product?.category_id) {
+        let found = false;
+        for (const [segment, families] of Object.entries(categoryData)) {
+        for (const [family, categories] of Object.entries(families)) {
+            for (const [name, id] of Object.entries(categories)) {
+            if (id === product.category_id) {
+                setForm(f => ({
+                ...f,
+                segment,
+                family,
+                categoryName: name
+                }));
+                found = true;
+                break;
+            }
+            }
+            if (found) break;
+        }
+        if (found) break;
+        }
+    }
+    }, [product]);
+    */
+
+    useEffect(() => {
+    if (product?.category_id) {
+        setTimeout(() => {
+        for (const [segment, families] of Object.entries(categoryData)) {
+            for (const [family, categories] of Object.entries(families)) {
+            for (const [name, id] of Object.entries(categories)) {
+                if (id === product.category_id) {
+                setForm(f => ({
+                    ...f,
+                    segment,
+                    family,
+                    categoryName: name
+                }));
+                return;
+                }
+            }
+            }
+        }
+        }, 100); // 延遲執行，等待 dropdown 初始化完成
+    }
+    }, []);
 
     useEffect(() => {
         setSegmentItems(Object.keys(categoryData).map(k => ({ label: k, value: k })));
@@ -68,20 +117,29 @@ export default function ProductEditView({ product, onBack }) {
         if (form.segment) {
             const families = Object.keys(categoryData[form.segment] || {});
             setFamilyItems(families.map(s => ({ label: s, value: s })));
+
+            if (!families.includes(form.family)) {
+                setForm(f => ({ ...f, family: '', categoryName: '' }));
+            }
         } else {
             setFamilyItems([]);
+            setForm(f => ({ ...f, family: '', categoryName: '' }));
         }
-        setForm(f => ({ ...f, family: '', categoryName: '' }));
     }, [form.segment]);
 
     useEffect(() => {
         if (form.segment && form.family) {
-            const categories = categoryData[form.segment]?.[form.family] || [];
-            setCategoryNameItems(categories.map(c => ({ label: c, value: c })));
+            const categoryObj = categoryData[form.segment]?.[form.family] || {};
+            const categoryList = Object.entries(categoryObj).map(([name, id]) => ({ label: name, value: name }));
+            setCategoryNameItems(categoryList);
+
+            if (!Object.keys(categoryObj).includes(form.categoryName)) {
+                setForm(f => ({ ...f, categoryName: '' }));
+            }
         } else {
             setCategoryNameItems([]);
+            setForm(f => ({ ...f, categoryName: '' }));
         }
-        setForm(f => ({ ...f, categoryName: '' }));
     }, [form.family]);
 
     // handle data change on screen
@@ -98,7 +156,7 @@ export default function ProductEditView({ product, onBack }) {
                 unit: form.unit,
                 part_no: form.partNo,
                 manufacturer: form.manufacturer,
-                category_id: product.category_id, // according to the algorithm to find the id
+                category_id: categoryData?.[form.segment]?.[form.family]?.[form.categoryName], // according to the algorithm to find the id
                 condition: form.condition,
                 country: form.country,
                 image: form.image
