@@ -1,51 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  UIManager,
+  findNodeHandle,
+  Dimensions,
 } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const steps = [
-  {
-    message: 'This buttom is for some hints.',
-    tooltipPos: { top: 100, right: 20 },
-    highlightBox: { top: 60, right: 100, width: 36, height: 36 },
-    
-  },
-  {
-    message: 'This button is for current announcement.',
-    tooltipPos: { top: 100, right: 70 },
-    highlightBox: { top: 60, right: 59, width: 36, height: 36 },
-  },
-  {
-    message: 'This button is for setting.',
-    tooltipPos: { top: 100, right: 80 },
-    highlightBox: { top: 60, right: 19, width: 36, height: 36 },
-  },
-  {
-    message: 'This button is for Dashboard.',
-    tooltipPos: { bottom: 100, left: 30 },
-    highlightBox: { bottom: 55, left: 52, width: 36, height: 36 },
-  },
-  {
-      message: 'This button is for Create new product.',
-    tooltipPos: { bottom: 100, left: width / 2 - 120 },
-    highlightBox: { bottom: 55, left: width / 2 -15, width: 36, height: 36 },
-  },
-  {
-    message: 'This button is for Inventory list.',
-    tooltipPos: { bottom: 100, right: 30 },
-    highlightBox: { bottom: 55, right: 47, width: 36, height: 36 },
-  },
-];
-
-export default function HintOverlay({ onClose }) {
+export default function HintOverlay({ refs, onClose }) {
   const [stepIndex, setStepIndex] = useState(0);
+  const [positions, setPositions] = useState([]);
+
+  const steps = [
+    { key: 'hintRef', message: 'This button is for some hints.' },
+    { key: 'announcementRef', message: 'This button is for current announcement.' },
+    { key: 'settingRef', message: 'This button is for setting.' },
+    { key: 'dashboardRef', message: 'This button is for dashboard.' },
+    { key: 'createRef', message: 'This button is for creating new items.' },
+    { key: 'inventoryRef', message: 'This button is for inventory list.' },
+  ];
+
+  useEffect(() => {
+    const measureAll = async () => {
+      const newPositions = await Promise.all(
+        steps.map(({ key }) => measureView(refs[key]))
+      );
+      setPositions(newPositions);
+    };
+
+    setTimeout(measureAll, 200);
+  }, []);
+
+  const measureView = (ref) => {
+    return new Promise((resolve) => {
+      if (!ref?.current) return resolve(null);
+      const handle = findNodeHandle(ref.current);
+      if (!handle) return resolve(null);
+      UIManager.measure(handle, (x, y, w, h, pageX, pageY) => {
+        resolve({ x: pageX, y: pageY, width: w, height: h });
+      });
+    });
+  };
+
   const nextStep = () => {
     if (stepIndex < steps.length - 1) {
       setStepIndex(stepIndex + 1);
@@ -54,7 +55,15 @@ export default function HintOverlay({ onClose }) {
     }
   };
 
-  const { message, tooltipPos, highlightBox } = steps[stepIndex];
+  const currentStep = steps[stepIndex];
+  const pos = positions[stepIndex];
+
+  if (!pos) return null;
+
+  const tooltipLeft = Math.max(8, Math.min(pos.x - 30, width - width * 0.75));
+  const tooltipTop = pos.y + pos.height + 10 > height - 100
+    ? pos.y - 60
+    : pos.y + pos.height + 10;
 
   return (
     <TouchableWithoutFeedback onPress={nextStep}>
@@ -63,14 +72,24 @@ export default function HintOverlay({ onClose }) {
         <View style={styles.dimBackground} />
 
         {/* highlightbox */}
-        <View style={[styles.highlightBox, highlightBox]} />
+        <View
+          style={[
+            styles.highlightBox,
+            {
+              top: pos.y - 4,
+              left: pos.x - 4,
+              width: pos.width + 8,
+              height: pos.height + 8,
+            },
+          ]}
+        />
 
-        {/* tooltipPos */}
-        <View style={[styles.tooltip, tooltipPos]}>
-          <Text style={styles.tooltipText}>{message}</Text>
+        {/* tooltip */}
+        <View style={[styles.tooltip, { top: tooltipTop, left: tooltipLeft }]}>
+          <Text style={styles.tooltipText}>{currentStep.message}</Text>
         </View>
 
-        {/* closeButton */}
+        {/* closebutton */}
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeText}>✕</Text>
         </TouchableOpacity>
@@ -86,13 +105,14 @@ const styles = StyleSheet.create({
   },
   dimBackground: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   highlightBox: {
     position: 'absolute',
     borderWidth: 2,
     borderColor: '#00f',
-    borderRadius: 8,
+    borderRadius: 6,
+    backgroundColor: 'transparent',
   },
   tooltip: {
     position: 'absolute',
@@ -111,14 +131,15 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 50,
+    top: 40,
     left: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 6,
+    zIndex: 1000,
   },
   closeText: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });

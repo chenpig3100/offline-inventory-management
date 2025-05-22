@@ -1,49 +1,25 @@
 //Vivian
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // 用於時鐘圖示
+import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
+import { getAnnouncements } from '../services/announcementStorage';
 
 export default function AnnouncementView() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const mockData = [
-    {
-      id: 1,
-      title: 'Five items has been successfully uploaded',
-      date: '09/04/2025 10:00:00',
-      content: 'These five items were added manually to local storage.',
-    },
-    {
-      id: 2,
-      title: 'Inventory sync complete',
-      date: '09/05/2025 09:30:00',
-      content: 'Inventory data synced with local storage.',
-    },
-    {
-      id: 3,
-      title: 'Backup successful',
-      date: '09/06/2025 08:20:00',
-      content: 'Local database backup completed.',
-    },
-  ];
-
-  useEffect(() => {
-    const loadAnnouncements = async () => {
-      try {
-        // 模擬延遲
-        setTimeout(() => {
-          setAnnouncements(mockData);
-          setLoading(false);
-        }, 800);
-      } catch (error) {
-        console.log('🚨Error loading announcements:', error);
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadData = async () => {
+        setLoading(true);
+        const data = await getAnnouncements();
+        setAnnouncements(data);
         setLoading(false);
-      }
-    };
-
-    loadAnnouncements();
-  }, []);
+      };
+      loadData();
+    }, [])
+  );
 
   if (loading) {
     return (
@@ -55,8 +31,8 @@ export default function AnnouncementView() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {announcements.map((item) => (
-        <View key={item.id} style={styles.card}>
+      {announcements.map((item, index) => (
+        <View key={index} style={styles.card}>
           <Text style={styles.title}>{item.title}</Text>
           <View style={styles.row}>
             <Ionicons name="time-outline" size={16} color="gray" style={{ marginRight: 6 }} />

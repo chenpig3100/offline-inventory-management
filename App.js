@@ -12,7 +12,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 // 如果分頁有異動，請記得改address
 import DashboardView from './src/views/DashboardView';
 import CreateView from './src/views/CreateView';
-import HintView from './src/views/HintView';
+//import HintView from './src/views/HintView';
 import AnnouncementView from './src/views/AnnouncementView';
 import InventoryWrapper from "./src/views/InventoryView/InventoryWrapper";
 import SettingWrapper from './src/views/SettingView/SettingWrapper';
@@ -49,19 +49,19 @@ function MainView() {
 
   let ContentComponent;
 
-  if (topView === 'Hint') ContentComponent = HintView;
-  else if (topView === 'Announcement') ContentComponent = AnnouncementView;
-  else if (topView === 'Setting'){
-  ContentComponent = (props) => (
-    <SettingWrapper
-      onForceLogout={() => {
-        setTopView(null);              
-        setActiveTab("Dashboard");    
-      }}
-      {...props}
-    />
-  );
-}
+  if (topView === 'Announcement') {
+  ContentComponent = AnnouncementView;} 
+  else if (topView === 'Setting') {
+    ContentComponent = (props) => (
+      <SettingWrapper
+        onForceLogout={() => {
+          setTopView(null);
+          setActiveTab("Dashboard");
+        }}
+        {...props}
+      />
+    );
+  }
   else {
     if (activeTab === 'Dashboard') ContentComponent = DashboardView;
     else if (activeTab === 'Create') ContentComponent = CreateView;

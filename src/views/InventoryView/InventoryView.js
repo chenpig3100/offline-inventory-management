@@ -5,6 +5,8 @@ import { getAllProducts, initProductTable, getDBConnection, deleteProduct, markA
 import React, { useCallback, useState} from 'react';
 import styles from "../../constants/inventoryViewStyles"
 import { FadeIn } from 'react-native-reanimated';
+import { addAnnouncement } from '../../services/announcementStorage';
+
 
 export default function InventoryView({ onEditProduct }) {
   const [viewType, setViewType] = useState('uploaded');
@@ -50,16 +52,35 @@ export default function InventoryView({ onEditProduct }) {
   };
 
   const handleManualUpload = async () => {
-    try {
-      await markAllAsSynced();
-      const refreshed = await getAllProducts();
-      setData(refreshed);
-      Alert.alert('Success', 'All items marked as uploaded.');
-    } catch (err) {
-      console.error('Manual upload failed:', err);
-      Alert.alert('Error', 'Failed to update items.');
-    }
-  };
+  const now = new Date().toLocaleString(); // current time
+
+  try {
+    await markAllAsSynced(); 
+    const refreshed = await getAllProducts();
+    setData(refreshed);
+
+    // ✅ addannouncement（success）
+    await addAnnouncement({
+      title: 'Upload Success',
+      date: now,
+      content: 'All items marked as uploaded and saved locally.',
+    });
+
+    Alert.alert('Success', 'All items marked as uploaded.');
+  } catch (err) {
+    console.error('Manual upload failed:', err);
+
+    // ❗addannouncement（fail）
+    await addAnnouncement({
+      title: 'Upload Failed',
+      date: now,
+      content: 'An error occurred while updating items.',
+    });
+
+    Alert.alert('Error', 'Failed to update items.');
+  }
+};
+
 
   const renderItem = ({ item }) => {
     const editable = item.is_synced === 0;
