@@ -28,29 +28,30 @@ export default function CreateProductView() {
   const [countryItems, setCountryItems] = useState([]);
 
   useEffect(() => {
-    setMainItems(Object.keys(categoryData).map(k => ({ label: k, value: k })));
-    setCountryItems(countryList.map(c => ({ label: c, value: c })));
-  }, []);
+  setMainItems(Object.keys(categoryData).map(k => ({ label: k, value: k })));
+  setCountryItems(countryList.map(c => ({ label: c, value: c })));
+}, []);
 
-  useEffect(() => {
-    if (form.category_main) {
-      const subs = Object.keys(categoryData[form.category_main] || {});
-      setSubItems(subs.map(s => ({ label: s, value: s })));
-    } else {
-      setSubItems([]);
-    }
-    setForm(f => ({ ...f, category_sub: '', category_sub_sub: '' }));
-  }, [form.category_main]);
+useEffect(() => {
+  if (form.category_main) {
+    const subs = Object.keys(categoryData[form.category_main] || {});
+    setSubItems(subs.map(s => ({ label: s, value: s })));
+  } else {
+    setSubItems([]);
+  }
+  setForm(f => ({ ...f, category_sub: '', category_sub_sub: '' }));
+}, [form.category_main]);
 
-  useEffect(() => {
-    if (form.category_main && form.category_sub) {
-      const subs = categoryData[form.category_main]?.[form.category_sub] || [];
-      setSubSubItems(subs.map(s => ({ label: s, value: s })));
-    } else {
-      setSubSubItems([]);
-    }
-    setForm(f => ({ ...f, category_sub_sub: '' }));
-  }, [form.category_sub]);
+useEffect(() => {
+  if (form.category_main && form.category_sub) {
+    const subsubObj = categoryData[form.category_main]?.[form.category_sub] || {};
+    const subsubList = Object.entries(subsubObj).map(([name, id]) => ({ label: name, value: name }));
+    setSubSubItems(subsubList);
+  } else {
+    setSubSubItems([]);
+  }
+  setForm(f => ({ ...f, category_sub_sub: '' }));
+}, [form.category_sub]);
 
   const handleChange = (key, value) => setForm(f => ({ ...f, [key]: value }));
 
@@ -74,7 +75,19 @@ export default function CreateProductView() {
 
   const handleSubmit = async () => {
     try {
-      await insertProduct({ ...form, amount: parseInt(form.amount) || 0 });
+      const category_id = categoryData?.[form.category_main]?.[form.category_sub]?.[form.category_sub_sub];
+
+      if (!category_id) {
+        Alert.alert("Error", "Invalid category selection.");
+        return;
+      }
+
+      await insertProduct({
+        ...form,
+        amount: parseInt(form.amount) || 0,
+        category_id
+      });
+
       Alert.alert('Success', 'Product saved.');
       setForm({
         name: '', description: '', amount: '', unit: '',
@@ -82,6 +95,7 @@ export default function CreateProductView() {
         category_sub: '', category_sub_sub: '', condition: '',
         country: '', image: null
       });
+
     } catch (e) {
       console.error(e);
       Alert.alert('Failed', 'Could not save product.');

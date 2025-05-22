@@ -21,6 +21,7 @@
     "expo-image-picker": "~16.1.4",
     "expo-sqlite": "~15.2.10",
     "expo-status-bar": "~2.2.3",
+    "expo-updates": "~0.28.13",
     "react": "19.0.0",
     "react-native": "0.79.2",
     "react-native-dropdown-picker": "^5.4.6",
@@ -28,8 +29,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "^5.4.0",
-    "react-native-screens": "^4.10.0",
-    "expo-updates": "~0.28.13"
+    "react-native-screens": "^4.10.0"
   },
   "private": true
 }
