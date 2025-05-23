@@ -30,7 +30,7 @@ export async function initProductTable() {
         category_id INTEGER,
         condition TEXT,
         country TEXT,
-        image TEXT,
+        image TEXT, --stores JSON.stringify(array)
         is_synced INTEGER DEFAULT 0,
         updated_at TEXT DEFAULT (datetime('now'))
       );
@@ -46,7 +46,10 @@ export async function getAllProducts() {
   try {
     const db = await getDBConnection();
     const result = await db.getAllAsync('SELECT * FROM product');
-    return result;
+    return result.map(row => ({
+      ...row,
+      image: row.image ? JSON.parse(row.image) : []
+    }));
   } catch (err) {
     console.error('getAllProducts error:', err);
     return [];
@@ -58,7 +61,7 @@ export async function getProductById(id) {
   try {
     const db = await getDBConnection();
     const result = await db.getFirstAsync('SELECT * FROM product WHERE id = ?', [id]);
-    return result;
+    return result ? { ...result, image: result.image ? JSON.parse(result.image) : [] } : null;
   } catch (err) {
     console.error(`getProductById error (id: ${id}):`, err);
     return null;
@@ -80,6 +83,19 @@ export async function insertProduct(product) {
     image
   } = product;
 
+  const safeImage = (() => {
+    if (Array.isArray(image)) return JSON.stringify(image);
+    if (typeof image === 'string') {
+      try {
+        const parsed = JSON.parse(image);
+        return Array.isArray(parsed) ? JSON.stringify(parsed) : JSON.stringify([]);
+      } catch {
+        return JSON.stringify([]);
+      }
+    }
+    return JSON.stringify([]);
+  })();
+
   try {
     const db = await getDBConnection();
     const result = await db.runAsync(
@@ -97,7 +113,7 @@ export async function insertProduct(product) {
         is_synced,
         updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, datetime('now'))`,
-      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, image]
+      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, safeImage]
     );
     return result.lastInsertRowId;
   } catch (err) {
@@ -122,6 +138,19 @@ export async function updateProduct(product) {
     image
   } = product;
 
+  const safeImage = (() => {
+    if (Array.isArray(image)) return JSON.stringify(image);
+    if (typeof image === 'string') {
+      try {
+        const parsed = JSON.parse(image);
+        return Array.isArray(parsed) ? JSON.stringify(parsed) : JSON.stringify([]);
+      } catch {
+        return JSON.stringify([]);
+      }
+    }
+    return JSON.stringify([]);
+  })();
+
   try {
     const db = await getDBConnection();
     const result = await db.runAsync(
@@ -138,7 +167,7 @@ export async function updateProduct(product) {
         image = ?,
         updated_at = datetime('now')
        WHERE id = ?`,
-      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, image, id]
+      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, safeImage, id]
     );
     return result.rowsAffected;
   } catch (err) {
@@ -163,4 +192,10 @@ export async function deleteProduct(id) {
 export async function markAllAsSynced() {
   const db = await getDBConnection();
   return await db.runAsync(`UPDATE product SET is_synced = 1 WHERE is_synced = 0`);
+}
+
+// Delete All Data
+export async function deleteProductData() {
+  const db = await getDBConnection();
+  return await db.runAsync(`DELETE FROM product`);
 }

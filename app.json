@@ -4,7 +4,7 @@
     "slug": "offline-inventory-management",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "jsEngine": "jsc",
@@ -33,7 +33,9 @@
       "expo-sqlite"
     ],
     "extra": {
-      
+      "eas": {
+        "projectId": "8d95f9fd-2153-4946-8793-9c65d6acec34"
+      }
     },
     "runtimeVersion": {
       "policy": "appVersion"

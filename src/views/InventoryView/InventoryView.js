@@ -84,16 +84,17 @@ export default function InventoryView({ onEditProduct }) {
 
   const renderItem = ({ item }) => {
     const editable = item.is_synced === 0;
+    const firstImage = getFirstImage(item.image);
 
     const content = (
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
-        {item.image ? (
-          <Image source={{ uri: item.image }} style={styles.image} />
-          ) : (
-            <View style={[styles.image, { backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center' }]}>
-              <Text style={{ color: '#999' }}>No image</Text>
-            </View>
-          )}
+        {firstImage ? (
+          <Image source={{ uri: firstImage }} style={styles.image} />
+        ) : (
+          <View style={[styles.image, { backgroundColor: '#eee', justifyContent: 'center', alignItems: 'center' }]}>
+            <Text style={{ color: '#999' }}>No image</Text>
+          </View>
+        )}
         <View style={styles.textContainer}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.date}>{item.updated_at}</Text>
@@ -164,7 +165,7 @@ export default function InventoryView({ onEditProduct }) {
         data={filteredData}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 100}}
+        contentContainerStyle={{ paddingBottom: 120}}
         />
       
       {/* Upload Button */}
@@ -184,4 +185,27 @@ export default function InventoryView({ onEditProduct }) {
       )}
     </View>
   );
+};
+
+function getFirstImage(imageField) {
+  try {
+    if (!imageField) return null;
+
+    if (Array.isArray(imageField)) {
+      return imageField[0];
+    }
+
+    if (typeof imageField === 'string') {
+      const parsed = JSON.parse(imageField);
+      if (Array.isArray(parsed)) {
+        return parsed[0];
+      } else if (typeof parsed === 'string') {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn("Image parsing failed:", e);
+  }
+
+  return null;
 };

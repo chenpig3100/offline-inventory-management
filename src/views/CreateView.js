@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import {
   ScrollView, View, Text, TextInput, Button,
-  Image, Alert, StyleSheet
+  Image, Alert, StyleSheet, TouchableOpacity
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { insertProduct } from '../modules/product';
 import categoryData from '../data/category.json';
 import { countryList } from '../data/country';
+import { manufacturerList, conditionList } from '../data/porductOptions';
 
 export default function CreateProductView() {
   const [form, setForm] = useState({
     name: '', description: '', amount: '', unit: '',
     part_no: '', manufacturer: '', category_main: '',
     category_sub: '', category_sub_sub: '', condition: '',
-    country: '', image: null
+    country: '', image: []
   });
 
   const [mainOpen, setMainOpen] = useState(false);
@@ -26,6 +27,9 @@ export default function CreateProductView() {
   const [subItems, setSubItems] = useState([]);
   const [subSubItems, setSubSubItems] = useState([]);
   const [countryItems, setCountryItems] = useState([]);
+
+  const [openManufacturer, setOpenManufacturer] = useState(false);
+  const [openCondition, setOpenCondition] = useState(false);
 
   useEffect(() => {
   setMainItems(Object.keys(categoryData).map(k => ({ label: k, value: k })));
@@ -55,12 +59,19 @@ useEffect(() => {
 
   const handleChange = (key, value) => setForm(f => ({ ...f, [key]: value }));
 
+  const handleRemoveImage = (indexToRemove) => {
+    setForm(f => ({
+      ...f,
+      image: f.image.filter((_, idx) => idx !== indexToRemove)
+    }));
+  };
+
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1
     });
-    if (!result.canceled) handleChange('image', result.assets[0].uri);
+    if (!result.canceled) handleChange('image', [...form.image, result.assets[0].uri]);
   };
 
   const takePhoto = async () => {
@@ -70,7 +81,7 @@ useEffect(() => {
       return;
     }
     const result = await ImagePicker.launchCameraAsync({ quality: 1 });
-    if (!result.canceled) handleChange('image', result.assets[0].uri);
+    if (!result.canceled) handleChange('image', [...form.image, result.assets[0].uri]);
   };
 
   const handleSubmit = async () => {
@@ -93,7 +104,7 @@ useEffect(() => {
         name: '', description: '', amount: '', unit: '',
         part_no: '', manufacturer: '', category_main: '',
         category_sub: '', category_sub_sub: '', condition: '',
-        country: '', image: null
+        country: '', image: []
       });
 
     } catch (e) {
@@ -106,7 +117,7 @@ useEffect(() => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Add Product</Text>
 
-      {['name', 'description', 'amount', 'unit', 'part_no', 'manufacturer', 'condition'].map(field => (
+      {['name', 'description', 'amount', 'unit', 'part_no'].map(field => (
         <TextInput
           key={field}
           placeholder={field}
@@ -118,6 +129,28 @@ useEffect(() => {
       ))}
 
       {/* Dropdowns */}
+      <DropDownPicker
+        open={openManufacturer}
+        setOpen={setOpenManufacturer}
+        value={form.manufacturer}
+        setValue={(cb) => handleChange('manufacturer', cb(null))}
+        items={manufacturerList}
+        placeholder="Select Manufacturer"
+        zIndex={5000}
+        style={styles.dropdown}
+        />
+
+      <DropDownPicker
+        open={openCondition}
+        setOpen={setOpenCondition}
+        value={form.condition}
+        setValue={(cb) => handleChange('condition', cb(null))}
+        items={conditionList}
+        placeholder="Select Condition"
+        zIndex={4000}
+        style={styles.dropdown}
+        />
+
       <DropDownPicker
         open={mainOpen}
         value={form.category_main}
@@ -174,7 +207,23 @@ useEffect(() => {
         <Button title="Take Photo" onPress={takePhoto} />
       </View>
 
-      {form.image && <Image source={{ uri: form.image }} style={styles.imagePreview} />}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
+        {Array.isArray(form.image) && form.image.length > 0 && (
+          <ScrollView horizontal style={styles.imageList}>
+            {form.image.map((uri, index) => (
+              <View key={index} style={{ position: 'relative', marginRight: 10 }}>
+                <Image source={{ uri }} style={styles.image} />
+                <TouchableOpacity
+                  onPress={() => handleRemoveImage(index)}
+                  style={styles.deleteButton}
+                >
+                  <Text style={{ color: 'white', fontSize: 12 }}>×</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        )}
+      </View>
 
       <Button title="Save Product" onPress={handleSubmit} />
     </ScrollView>
@@ -193,5 +242,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between',
     marginVertical: 10
   },
-  imagePreview: { height: 200, marginBottom: 10 }
+  imagePreview: { height: 200, marginBottom: 10 },
+  imageList: {
+    flexDirection: 'row',
+    marginVertical: 10
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    marginRight: 10
+  },
+  imageList: {
+    flexDirection: 'row',
+    maxHeight: 110,
+    marginVertical: 10
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 5,
+    right: 15,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1
+  }
 });

@@ -4,8 +4,7 @@ import { Platform, StatusBar } from 'react-native';
 export default StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#fff',
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+        backgroundColor: '#fff'
     },
     container: {flex: 1 },
     tabItem: {
@@ -13,23 +12,25 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     navBar: {
-        height: 60,
         backgroundColor: '#74E8FF',
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: 0,
+        minHeight: 60
     },
     topRightButtons: { flexDirection: 'row' },
     icon: { marginLeft: 12, fontSize:18 },
     title: { fontSize: 24, fontWeight: 'bold' },
     content: { flex: 1, padding: 16 },
     bottomBar: {
-        height: 60,
         backgroundColor: '#74E8FF',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 0,
+        minHeight: 60
     },
     tab: { fontSize: 16 },
     activeTab: { fontSize:16, fontWeight: 'bold', color: 'blue' },

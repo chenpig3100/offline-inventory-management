@@ -7,7 +7,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth, AuthProvider } from "./src/context/AuthContext";
 import useNetworkSync from "./src/hooks/useNetworkSync";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // 如果分頁有異動，請記得改address
 import DashboardView from './src/views/DashboardView';
@@ -109,10 +110,14 @@ function MainView() {
 export default function App() {
   useNetworkSync();
   return (
-    <GestureHandlerRootView>
-      <NavigationContainer>
-        <MainView />
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <SafeAreaView style={{flex: 1 }} edges={['bottom', 'top', 'left', 'right']}>
+        <GestureHandlerRootView>
+          <NavigationContainer>
+            <MainView />
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </SafeAreaView>
+    </SafeAreaProvider> 
   );
 }

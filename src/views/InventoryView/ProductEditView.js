@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity, ScrollView, Alert, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DropdownPicker from "react-native-dropdown-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAvoidingView } from "react-native";
 import styles from "../../constants/productEditViewStyles"; 
 import categoryData from "../../data/category.json";
 import { countryList } from "../../data/country";
+import { manufacturerList, conditionList } from '../../data/porductOptions';
 import { updateProduct } from "../../modules/product";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function ProductEditView({ product, onBack }) {
 
@@ -20,7 +23,18 @@ export default function ProductEditView({ product, onBack }) {
         segment: '',
         family: '',
         categoryName: '',
-        image: product?.image || null
+        image: (() => {
+            try {
+              if (Array.isArray(product?.image)) return product.image;
+              if (typeof product?.image === 'string') {
+                const parsed = JSON.parse(product.image);
+                return Array.isArray(parsed) ? parsed : [];
+              }
+              return [];
+            } catch {
+              return [];
+            }
+          })()
     });
 
     const [openSegment, setOpenSegment] = useState(false);
@@ -35,6 +49,9 @@ export default function ProductEditView({ product, onBack }) {
     const [openCountry, setOpenCountry] = useState(false);
     const [countryItems, setCountryItems] = useState([]);
 
+    const [openManufacturer, setOpenManufacturer] = useState(false);
+    const [openCondition, setOpenCondition] = useState(false);
+
     // Open camera
     const handleTakePhoto = async () => {
         const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -43,7 +60,7 @@ export default function ProductEditView({ product, onBack }) {
         const result = await ImagePicker.launchCameraAsync();
         if (!result.canceled) {
             const uri = result.assets[0].uri;
-            setForm(f => ({ ...f, image: uri }));
+            setForm(f => ({ ...f, image: [...f.image, uri] }));
         }
     };
     
@@ -55,7 +72,7 @@ export default function ProductEditView({ product, onBack }) {
         const result = await ImagePicker.launchImageLibraryAsync();
         if (!result.canceled) {
             const uri = result.assets[0].uri;
-            setForm(f => ({ ...f, image: uri }));
+            setForm(f => ({ ...f, image: [...f.image, uri] }));
         }
     };
     
@@ -159,7 +176,7 @@ export default function ProductEditView({ product, onBack }) {
                 category_id: categoryData?.[form.segment]?.[form.family]?.[form.categoryName], // according to the algorithm to find the id
                 condition: form.condition,
                 country: form.country,
-                image: form.image
+                image: JSON.stringify(form.image)
             });
 
             Alert.alert('Success', 'Product updated sccessfully.');
@@ -169,111 +186,152 @@ export default function ProductEditView({ product, onBack }) {
             Alert.alert('Error', 'Failed to update product.');
         }
     };
+
+    const handleRemoveImage = (indexToRemove) => {
+        setForm(f => ({
+          ...f,
+          image: f.image.filter((_, idx) => idx !== indexToRemove)
+        }));
+      };
     
     return (
         <KeyboardAwareScrollView 
-            contentContainerStyle={styles.container}
-            nestedScrollEnabled={true}
-            enableOnAndroid={true}
-            extraScrollHeight={100}
-            >
-            <Text style={styles.title}>Edit Product</Text>
+        contentContainerStyle={styles.container}
+        nestedScrollEnabled={true}
+        enableOnAndroid={true}
+        extraScrollHeight={100}
+        >
+        <Text style={styles.title}>Edit Product</Text>
 
-            <View style={styles.wrapper}>
-                <DropdownPicker
-                    //mode="MODAL"
-                    open={openSegment}
-                    setOpen={setOpenSegment}
-                    value={form.segment}
-                    setValue={(cb) => handleChange('segment', cb(null))}
-                    items={segmentItems}
-                    setItems={setSegmentItems}
-                    zIndex={3000}
-                    dropDownContainerStyle={{
-                        elevation: 10,
-                        zIndex: 1000
-                        }}
-                    placeholder="Select Segment"
-                    style={styles.dropdown}
-                    />
-
-                <DropdownPicker
-                    //mode="MODAL"
-                    open={openFamily}
-                    setOpen={setOpenFamily}
-                    value={form.family}
-                    setValue={(cb) => handleChange('family', cb(null))}
-                    items={familyItems}
-                    setItems={setFamilyItems}
-                    disabled={!form.segment}
-                    zIndex={2000}
-                    dropDownContainerStyle={{
-                        elevation: 10,
-                        zIndex: 1000
-                        }}
-                    placeholder="Select Family"
-                    style={styles.dropdown}
-                    />
-
-                <DropdownPicker
-                    //mode="MODAL"
-                    open={openCategoryName}
-                    setOpen={setOpenCategoryName}
-                    value={form.categoryName}
-                    setValue={(cb) => handleChange('categoryName', cb(null))}
-                    items={categoryNameItems}
-                    setItems={setCategoryNameItems}
-                    disabled={!form.family}
-                    zIndex={1000}
-                    dropDownContainerStyle={{
-                        elevation: 10,
-                        zIndex: 1000
-                    }}
-                    placeholder="Select Category Name"
-                    style={styles.dropdown}
-                    />
-            </View>
-            
-            <TextInput placeholder="Product Name" value={form.name} onChangeText={(v) => handleChange('name', v)} style={styles.input} />
-            <TextInput placeholder="Description" value={form.description} onChangeText={(v) => handleChange('description', v)} style={styles.input} />
-            <TextInput placeholder="PartNo" value={form.partNo} onChangeText={(v) => handleChange('partNo', v)} style={styles.input} />
-            <TextInput placeholder="Manufacturer" value={form.manufacturer} onChangeText={(v) => handleChange('manufacturer', v)} style={styles.input} />
-            <TextInput placeholder="Condition" value={form.condition} onChangeText={(v) => handleChange('condition', v)} style={styles.input} />
-
+        <View style={styles.wrapper}>
             <DropdownPicker
                 //mode="MODAL"
-                open={openCountry}
-                setOpen={setOpenCountry}
-                value={form.country}
-                setValue={(cb) => handleChange('country', cb(null))}
-                items={countryItems}
-                setItems={setCountryItems}
-                zIndex={1000}
-                placeholder="Select Country"
+                open={openSegment}
+                setOpen={setOpenSegment}
+                value={form.segment}
+                setValue={(cb) => handleChange('segment', cb(null))}
+                items={segmentItems}
+                setItems={setSegmentItems}
+                zIndex={3000}
+                dropDownContainerStyle={{
+                    elevation: 10,
+                    zIndex: 1000
+                    }}
+                placeholder="Select Segment"
                 style={styles.dropdown}
                 />
 
-            {form.image?.startsWith('file') || form.image?.startsWith('http') ? (
-                <Image source={{ uri: form.image }} style={styles.image} />
-            ) : null}
+            <DropdownPicker
+                //mode="MODAL"
+                open={openFamily}
+                setOpen={setOpenFamily}
+                value={form.family}
+                setValue={(cb) => handleChange('family', cb(null))}
+                items={familyItems}
+                setItems={setFamilyItems}
+                disabled={!form.segment}
+                zIndex={2000}
+                dropDownContainerStyle={{
+                    elevation: 10,
+                    zIndex: 1000
+                    }}
+                placeholder="Select Family"
+                style={styles.dropdown}
+                />
 
-            <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button} onPress={handleTakePhoto}>
-                    <Text style={styles.buttonText}>Use Camera</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handlePickImage}>
-                    <Text style={styles.buttonText}>From Album</Text>
-                </TouchableOpacity>
-            </View>
+            <DropdownPicker
+                //mode="MODAL"
+                open={openCategoryName}
+                setOpen={setOpenCategoryName}
+                value={form.categoryName}
+                setValue={(cb) => handleChange('categoryName', cb(null))}
+                items={categoryNameItems}
+                setItems={setCategoryNameItems}
+                disabled={!form.family}
+                zIndex={1000}
+                dropDownContainerStyle={{
+                    elevation: 10,
+                    zIndex: 1000
+                }}
+                placeholder="Select Category Name"
+                style={styles.dropdown}
+                />
+        </View>
+        
+        <TextInput placeholder="Product Name" value={form.name} onChangeText={(v) => handleChange('name', v)} style={styles.input} />
+        <TextInput placeholder="Description" value={form.description} onChangeText={(v) => handleChange('description', v)} style={styles.input} />
+        <TextInput placeholder="PartNo" value={form.partNo} onChangeText={(v) => handleChange('partNo', v)} style={styles.input} />
+    
+        <DropdownPicker
+        open={openManufacturer}
+        setOpen={setOpenManufacturer}
+        value={form.manufacturer}
+        setValue={(cb) => handleChange('manufacturer', cb(null))}
+        items={manufacturerList}
+        placeholder="Select Manufacturer"
+        zIndex={3000}
+        style={styles.dropdown}
+        />
 
-            <View style={styles.buttonRow}>
-                <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={onBack}>
-                    <Text style={styles.buttonText}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handleSave}>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAwareScrollView>
-    )
+        <DropdownPicker
+        open={openCondition}
+        setOpen={setOpenCondition}
+        value={form.condition}
+        setValue={(cb) => handleChange('condition', cb(null))}
+        items={conditionList}
+        placeholder="Select Condition"
+        zIndex={2000}
+        style={styles.dropdown}
+        />
+
+        <DropdownPicker
+            //mode="MODAL"
+            open={openCountry}
+            setOpen={setOpenCountry}
+            value={form.country}
+            setValue={(cb) => handleChange('country', cb(null))}
+            items={countryItems}
+            setItems={setCountryItems}
+            zIndex={1000}
+            placeholder="Select Country"
+            style={styles.dropdown}
+            />
+
+        <View style={{ marginVertical: 10 }}>
+            {Array.isArray(form.image) && form.image.length > 0 && (
+                <ScrollView horizontal style={styles.imageList}>
+                    {form.image.map((uri, index) => (
+                        <View key={index} style={{ position: 'relative', marginRight: 10 }}>
+                            <Image source={{ uri }} style={styles.image} />
+                            <TouchableOpacity
+                                onPress={() => handleRemoveImage(index)}
+                                style={styles.deleteButton}
+                            >
+                                <Text style={{ color: 'white', fontSize: 12 }}>×</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
+            )}
+        </View>
+
+        <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.button} onPress={handleTakePhoto}>
+                <Text style={styles.buttonText}>Use Camera</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handlePickImage}>
+                <Text style={styles.buttonText}>From Album</Text>
+            </TouchableOpacity>
+        </View>
+
+        <View style={styles.buttonRow}>
+            <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={onBack}>
+                <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleSave}>
+                <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+        </View>
+    </KeyboardAwareScrollView>
+    );
 }

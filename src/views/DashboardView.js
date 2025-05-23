@@ -70,6 +70,7 @@ export default function Dashboard({ onSwitchTab }) {
         data={recentItems}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: 120 }}
       />
 
       <TouchableOpacity
