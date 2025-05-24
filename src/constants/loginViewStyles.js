@@ -27,5 +27,29 @@ export default StyleSheet.create({
         paddingHorizontal: 4,
         paddingVertical: 6,
         fontSize: 16
+    },
+    overlay: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        padding: 20
+    },
+    modal: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 8,
+        elevation: 5
+    },
+    registerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10
+    },
+    registerInput: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 10
     }
 });

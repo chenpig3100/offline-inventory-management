@@ -53,6 +53,13 @@ export default function InventoryView({ onEditProduct }) {
 
   const handleManualUpload = async () => {
   const now = new Date().toLocaleString(); // current time
+  const unsynced = data.filter(item => item.is_synced === 0);
+
+  // check unsynced data
+  if (unsynced.length === 0) {
+    Alert.alert('Notice', 'There are no items to upload.');
+    return;
+  }
 
   try {
     await markAllAsSynced(); 
@@ -171,14 +178,7 @@ export default function InventoryView({ onEditProduct }) {
       {/* Upload Button */}
       {viewType === 'not_uploaded' && (
         <View style={{ padding: 16 }}>
-          <TouchableOpacity
-            onPress={handleManualUpload}
-              style={{
-                backgroundColor: '#007AFF',
-                padding: 12,
-                borderRadius: 8,
-                alignItems: 'center'
-              }}>
+          <TouchableOpacity onPress={handleManualUpload} style={styles.uploadButton}>
             <Text style={{ color: 'white', fontWeight: 'bold' }}>Manually Upload</Text>
           </TouchableOpacity>
         </View>

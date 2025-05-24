@@ -113,9 +113,11 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={{flex: 1 }} edges={['bottom', 'top', 'left', 'right']}>
         <GestureHandlerRootView>
-          <NavigationContainer>
-            <MainView />
-          </NavigationContainer>
+          <AuthProvider>
+            <NavigationContainer>
+              <AppNavigator />
+            </NavigationContainer>
+          </AuthProvider>
         </GestureHandlerRootView>
       </SafeAreaView>
     </SafeAreaProvider> 

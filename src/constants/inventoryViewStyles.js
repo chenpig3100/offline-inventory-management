@@ -57,5 +57,11 @@ export default StyleSheet.create({
     date: {
         fontSize:12,
         color: '#666'
+    },
+    uploadButton: {
+        backgroundColor: '#007AFF',
+        padding: 12,
+        borderRadius: 8,
+        alignItems: 'center'
     }
 });

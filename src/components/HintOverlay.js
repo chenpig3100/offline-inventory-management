@@ -8,6 +8,7 @@ import {
   UIManager,
   findNodeHandle,
   Dimensions,
+  InteractionManager
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -26,14 +27,17 @@ export default function HintOverlay({ refs, onClose }) {
   ];
 
   useEffect(() => {
-    const measureAll = async () => {
-      const newPositions = await Promise.all(
-        steps.map(({ key }) => measureView(refs[key]))
-      );
-      setPositions(newPositions);
-    };
-
-    setTimeout(measureAll, 200);
+    InteractionManager.runAfterInteractions(() => {
+      const measureAll = async () => {
+        await new Promise(r => setTimeout(r, 100));
+        const newPositions = await Promise.all(
+          steps.map(({ key }) => measureView(refs[key]))
+        );
+        setPositions(newPositions);
+      };
+      measureAll();
+    })
+    //setTimeout(measureAll, 200);
   }, []);
 
   const measureView = (ref) => {
@@ -41,8 +45,9 @@ export default function HintOverlay({ refs, onClose }) {
       if (!ref?.current) return resolve(null);
       const handle = findNodeHandle(ref.current);
       if (!handle) return resolve(null);
-      UIManager.measure(handle, (x, y, w, h, pageX, pageY) => {
-        resolve({ x: pageX, y: pageY, width: w, height: h });
+      UIManager.measure(handle, (x, y, w, h) => {
+        //console.log("measureView", { x, y, w, h });
+        resolve({ x, y, width: w, height: h });
       });
     });
   };
@@ -60,10 +65,10 @@ export default function HintOverlay({ refs, onClose }) {
 
   if (!pos) return null;
 
-  const tooltipLeft = Math.max(8, Math.min(pos.x - 30, width - width * 0.75));
+  const tooltipLeft = Math.max(120, Math.min(pos.x - 30, width - width * 0.75));
   const tooltipTop = pos.y + pos.height + 10 > height - 100
     ? pos.y - 60
-    : pos.y + pos.height + 10;
+    : pos.y + pos.height + 30;
 
   return (
     <TouchableWithoutFeedback onPress={nextStep}>
@@ -76,9 +81,9 @@ export default function HintOverlay({ refs, onClose }) {
           style={[
             styles.highlightBox,
             {
-              top: pos.y - 4,
-              left: pos.x - 4,
-              width: pos.width + 8,
+              top: pos.y + 15,
+              left: pos.x + 295,
+              width: pos.width - 2,
               height: pos.height + 8,
             },
           ]}
