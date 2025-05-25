@@ -6,6 +6,9 @@ import React, { useCallback, useState} from 'react';
 import styles from "../../constants/inventoryViewStyles"
 import { FadeIn } from 'react-native-reanimated';
 import { addAnnouncement } from '../../services/announcementStorage';
+//Isaac
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 
 export default function InventoryView({ onEditProduct }) {
@@ -65,6 +68,38 @@ export default function InventoryView({ onEditProduct }) {
     await markAllAsSynced(); 
     const refreshed = await getAllProducts();
     setData(refreshed);
+
+    // API TXT
+    const logLines = unsynced.map((item, i) => {
+      return `[${i + 1}] POST /api/upload
+    ID           : ${item.id}
+    Name         : ${item.name}
+    Description  : ${item.description}
+    Amount       : ${item.amount}
+    Unit         : ${item.unit}
+    Part No      : ${item.part_no}
+    Manufacturer : ${item.manufacturer}
+    Category ID  : ${item.category_id}
+    Condition    : ${item.condition}
+    Country      : ${item.country}
+    Image        : ${Array.isArray(item.image) ? item.image.join(', ') : item.image}
+    Synced       : ${item.is_synced}
+    Updated At   : ${item.updated_at}
+    `;
+    });
+
+    const fileContent = `Manual Upload Log (${now})\n\n` + logLines.join('\n');
+
+    const fileUri = FileSystem.documentDirectory + `manual_upload_${Date.now()}.txt`;
+    await FileSystem.writeAsStringAsync(fileUri, fileContent);
+    console.log('TXT saved at:', fileUri);
+
+    // observe TXT
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(fileUri);
+    } else {
+      Alert.alert('Notice', 'Sharing not available on this device');
+    }
 
     // ✅ addannouncement（success）
     await addAnnouncement({

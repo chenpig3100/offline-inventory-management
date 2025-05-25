@@ -4,6 +4,10 @@ npx expo install axios
 npx expo install expo-sqlite
 npx expo install @react-native-async-storage/async-storage
 
+## For the txt output and share
+npx expo install expo-file-system
+npx expo install expo-sharing
+
 ## Additional install (Shane)
 npm install @react-native-community/netinfo
 npx expo install expo-image-picker

@@ -18,6 +18,13 @@ import AnnouncementView from './src/views/AnnouncementView';
 import InventoryWrapper from "./src/views/InventoryView/InventoryWrapper";
 import SettingWrapper from './src/views/SettingView/SettingWrapper';
 
+// 使用者端忽略這個警告
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested',
+]);
+
 
 const Stack = createNativeStackNavigator();
 
