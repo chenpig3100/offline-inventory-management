@@ -142,6 +142,8 @@ useEffect(() => {
         setValue={(cb) => handleChange('manufacturer', cb(null))}
         items={manufacturerList}
         placeholder="Select Manufacturer"
+        searchable={true}
+        searchPlaceholder="Type Manufacturer"
         zIndex={5000}
         style={styles.dropdown}
         />
@@ -165,6 +167,8 @@ useEffect(() => {
         setValue={(cb) => handleChange('category_main', cb(null))}
         setItems={setMainItems}
         placeholder="Select Segment"
+        searchable={true}
+        searchPlaceholder="Type Segment"
         zIndex={3000}
         style={styles.dropdown}
       />
@@ -177,6 +181,8 @@ useEffect(() => {
         setValue={(cb) => handleChange('category_sub', cb(null))}
         setItems={setSubItems}
         placeholder="Select Family"
+        searchable={true}
+        searchPlaceholder="Type Family"
         zIndex={2000}
         style={styles.dropdown}
         disabled={!form.category_main}
@@ -190,6 +196,8 @@ useEffect(() => {
         setValue={(cb) => handleChange('category_sub_sub', cb(null))}
         setItems={setSubSubItems}
         placeholder="Select Category"
+        searchable={true}
+        searchPlaceholder="Type Category"
         zIndex={1000}
         style={styles.dropdown}
         disabled={!form.category_sub}
@@ -203,6 +211,8 @@ useEffect(() => {
         setValue={(cb) => handleChange('country', cb(null))}
         setItems={setCountryItems}
         placeholder="Select Country"
+        searchable={true}
+        searchPlaceholder="Type Country"
         zIndex={500}
         style={styles.dropdown}
       />

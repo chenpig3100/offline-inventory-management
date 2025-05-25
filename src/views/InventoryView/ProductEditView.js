@@ -218,6 +218,8 @@ export default function ProductEditView({ product, onBack }) {
                     zIndex: 1000
                     }}
                 placeholder="Select Segment"
+                searchable={true}
+                searchPlaceholder="Type Segment"
                 style={styles.dropdown}
                 />
 
@@ -236,6 +238,8 @@ export default function ProductEditView({ product, onBack }) {
                     zIndex: 1000
                     }}
                 placeholder="Select Family"
+                searchable={true}
+                searchPlaceholder="Type Family"
                 style={styles.dropdown}
                 />
 
@@ -254,6 +258,8 @@ export default function ProductEditView({ product, onBack }) {
                     zIndex: 1000
                 }}
                 placeholder="Select Category Name"
+                searchable={true}
+                searchPlaceholder="Type Category"
                 style={styles.dropdown}
                 />
         </View>
@@ -269,6 +275,8 @@ export default function ProductEditView({ product, onBack }) {
         setValue={(cb) => handleChange('manufacturer', cb(null))}
         items={manufacturerList}
         placeholder="Select Manufacturer"
+        searchable={true}
+        searchPlaceholder="Type Manufacturer"
         zIndex={3000}
         style={styles.dropdown}
         />
@@ -294,6 +302,8 @@ export default function ProductEditView({ product, onBack }) {
             setItems={setCountryItems}
             zIndex={1000}
             placeholder="Select Country"
+            searchable={true}
+            searchPlaceholder="Type Country"
             style={styles.dropdown}
             />
 
