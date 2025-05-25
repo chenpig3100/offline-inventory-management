@@ -98,12 +98,19 @@ function MainView() {
 }
 
 // export default function App() {
+//   useNetworkSync();
 //   return (
-//     <AuthProvider>
-//       <NavigationContainer>
-//         <AppNavigator />
-//       </NavigationContainer>
-//     </AuthProvider>
+//     <SafeAreaProvider>
+//       <SafeAreaView style={{flex: 1 }} edges={['bottom', 'top', 'left', 'right']}>
+//         <GestureHandlerRootView>
+//           <AuthProvider>
+//             <NavigationContainer>
+//               <AppNavigator />
+//             </NavigationContainer>
+//           </AuthProvider>
+//         </GestureHandlerRootView>
+//       </SafeAreaView>
+//     </SafeAreaProvider> 
 //   );
 // }
 
@@ -113,11 +120,9 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={{flex: 1 }} edges={['bottom', 'top', 'left', 'right']}>
         <GestureHandlerRootView>
-          <AuthProvider>
-            <NavigationContainer>
-              <AppNavigator />
-            </NavigationContainer>
-          </AuthProvider>
+          <NavigationContainer>
+            <MainView />
+          </NavigationContainer>
         </GestureHandlerRootView>
       </SafeAreaView>
     </SafeAreaProvider> 
