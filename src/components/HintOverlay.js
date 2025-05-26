@@ -28,6 +28,18 @@ export default function HintOverlay({ refs, onClose }) {
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
+      // 👉 加入這段：印出目前抓到的 ref 狀態
+      /*
+      steps.forEach(({ key }) => {
+        const ref = refs[key];
+        if (ref?.current) {
+          const handle = findNodeHandle(ref.current);
+          console.log(`✅ 測試 ref "${key}" 成功，handle:`, handle);
+        } else {
+          console.warn(`❌ ref "${key}" 沒抓到，位置量測將會失敗`);
+        }
+      });
+      */
       const measureAll = async () => {
         await new Promise(r => setTimeout(r, 100));
         const newPositions = await Promise.all(
@@ -45,9 +57,9 @@ export default function HintOverlay({ refs, onClose }) {
       if (!ref?.current) return resolve(null);
       const handle = findNodeHandle(ref.current);
       if (!handle) return resolve(null);
-      UIManager.measure(handle, (x, y, w, h) => {
-        //console.log("measureView", { x, y, w, h });
-        resolve({ x, y, width: w, height: h });
+      UIManager.measure(handle, (x, y, w, h, pageX, pageY) => {
+        console.log("📏 measure", { x, y, w, h, pageX, pageY });
+        resolve({ x: pageX, y: pageY, width: w, height: h });
       });
     });
   };
@@ -65,10 +77,11 @@ export default function HintOverlay({ refs, onClose }) {
 
   if (!pos) return null;
 
-  const tooltipLeft = Math.max(120, Math.min(pos.x - 30, width - width * 0.75));
-  const tooltipTop = pos.y + pos.height + 10 > height - 100
-    ? pos.y - 60
-    : pos.y + pos.height + 30;
+  const tooltipLeft = Math.max(10, Math.min(pos.x, width - width * 0.7));
+  const tooltipTop =
+    pos.y + pos.height + 10 > height - 100
+      ? pos.y - 120 // 若太接近底部就往上顯示
+      : pos.y + pos.height + 20;
 
   return (
     <TouchableWithoutFeedback onPress={nextStep}>
@@ -81,10 +94,10 @@ export default function HintOverlay({ refs, onClose }) {
           style={[
             styles.highlightBox,
             {
-              top: pos.y + 15,
-              left: pos.x + 295,
-              width: pos.width - 2,
-              height: pos.height + 8,
+              top: pos.y - 65,             // 直接使用 pageY 結果
+              left: pos.x - 5,
+              width: pos.width + 10,
+              height: pos.height + 10,
             },
           ]}
         />
