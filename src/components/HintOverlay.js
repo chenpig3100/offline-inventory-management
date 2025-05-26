@@ -58,7 +58,7 @@ export default function HintOverlay({ refs, onClose }) {
       const handle = findNodeHandle(ref.current);
       if (!handle) return resolve(null);
       UIManager.measure(handle, (x, y, w, h, pageX, pageY) => {
-        console.log("📏 measure", { x, y, w, h, pageX, pageY });
+        //console.log("measure", { x, y, w, h, pageX, pageY });
         resolve({ x: pageX, y: pageY, width: w, height: h });
       });
     });
