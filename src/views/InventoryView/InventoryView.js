@@ -10,6 +10,9 @@ import { addAnnouncement } from '../../services/announcementStorage';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
+//online offline
+import NetInfo from '@react-native-community/netinfo';
+
 
 export default function InventoryView({ onEditProduct }) {
   const [viewType, setViewType] = useState('uploaded');
@@ -61,6 +64,13 @@ export default function InventoryView({ onEditProduct }) {
   // check unsynced data
   if (unsynced.length === 0) {
     Alert.alert('Notice', 'There are no items to upload.');
+    return;
+  }
+
+  // network
+  const state = await NetInfo.fetch();
+  if (!state.isConnected) {
+    Alert.alert('Offline', 'You are currently offline. Please connect to the internet to upload.');
     return;
   }
 
