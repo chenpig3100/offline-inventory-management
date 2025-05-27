@@ -165,6 +165,33 @@ export default function ProductEditView({ product, onBack }) {
     // handle data change in database
     const handleSave = async () => {
         try {
+
+            // 必填欄位清單
+            const requiredFields = ['name', 'description', 'partNo', 'manufacturer', 'condition', 'country'];
+            const missingFields = requiredFields.filter(field => !form[field] || form[field].trim() === '');
+
+            if (missingFields.length > 0) {
+            const labels = {
+                name: 'Product Name',
+                description: 'Description',
+                partNo: 'Part Number',
+                manufacturer: 'Manufacturer',
+                condition: 'Condition',
+                country: 'Country'
+            };
+
+            const missingLabels = missingFields.map(f => labels[f] || f).join(', ');
+            Alert.alert('Missing Information', `Please fill in: ${missingLabels}`);
+            return;
+            }
+
+            // 類別也要檢查是否選好
+            const category_id = categoryData?.[form.segment]?.[form.family]?.[form.categoryName];
+            if (!category_id) {
+            Alert.alert("Missing Category", "Please select Segment, Family and Category.");
+            return;
+            }
+
             await updateProduct({
                 id: product.id,
                 name: form.name,
