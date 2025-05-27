@@ -60,9 +60,8 @@ useEffect(() => {
   if (form.category_main && form.category_sub) {
     const subsubObj = categoryData[form.category_main]?.[form.category_sub] || {};
     const subsubList = Object.entries(subsubObj)
-      .map(([name, id]) => ({ label: name, value: name })
-      .sort((a, b) => a.label.localeCompare(b.label))
-    );
+      .map(([name, id]) => ({ label: name, value: name }))
+      .sort((a, b) => a.label.localeCompare(b.label));
     setSubSubItems(subsubList);
   } else {
     setSubSubItems([]);
