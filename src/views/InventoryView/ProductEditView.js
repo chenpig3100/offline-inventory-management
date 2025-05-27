@@ -121,7 +121,7 @@ export default function ProductEditView({ product, onBack }) {
             }
             }
         }
-        }, 100); // 延遲執行，等待 dropdown 初始化完成
+        }, 100);
     }
     }, []);
 
@@ -166,7 +166,7 @@ export default function ProductEditView({ product, onBack }) {
     const handleSave = async () => {
         try {
 
-            // 必填欄位清單
+            // required fields
             const requiredFields = ['name', 'description', 'partNo', 'manufacturer', 'condition', 'country'];
             const missingFields = requiredFields.filter(field => !form[field] || form[field].trim() === '');
 
@@ -185,7 +185,7 @@ export default function ProductEditView({ product, onBack }) {
             return;
             }
 
-            // 類別也要檢查是否選好
+            // check category
             const category_id = categoryData?.[form.segment]?.[form.family]?.[form.categoryName];
             if (!category_id) {
             Alert.alert("Missing Category", "Please select Segment, Family and Category.");

@@ -9,6 +9,7 @@ import { insertProduct } from '../modules/product';
 import categoryData from '../data/category.json';
 import { countryList } from '../data/country';
 import { manufacturerList, conditionList } from '../data/porductOptions';
+import { getAllProducts } from '../modules/product';
 
 export default function CreateProductView() {
   const [form, setForm] = useState({
@@ -116,6 +117,17 @@ useEffect(() => {
 
       if (!category_id) {
         Alert.alert("Error", "Invalid category selection.");
+        return;
+      }
+
+      // Part No + Manufacturer can't be same
+      const existing = await getAllProducts();
+      const isDuplicate = existing.some(item =>
+        item.part_no === form.part_no && item.manufacturer === form.manufacturer
+      );
+
+      if (isDuplicate) {
+        Alert.alert('Duplicate Detected', 'A product with the same Part Number and Manufacturer already exists.');
         return;
       }
 

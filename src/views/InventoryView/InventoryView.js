@@ -60,10 +60,31 @@ export default function InventoryView({ onEditProduct }) {
   const handleManualUpload = async () => {
   const now = new Date().toLocaleString(); // current time
   const unsynced = data.filter(item => item.is_synced === 0);
+  const uploaded = data.filter(item => item.is_synced === 1);
 
   // check unsynced data
   if (unsynced.length === 0) {
     Alert.alert('Notice', 'There are no items to upload.');
+    return;
+  }
+
+  // part_no + manufacturer can't be same
+  const duplicateItems = unsynced.filter(unsyncedItem =>
+    uploaded.some(uploadedItem =>
+      uploadedItem.part_no === unsyncedItem.part_no &&
+      uploadedItem.manufacturer === unsyncedItem.manufacturer
+    )
+  );
+
+  if (duplicateItems.length > 0) {
+    const dupDetails = duplicateItems.map(item =>
+      `• ${item.name} (Part No: ${item.part_no}, Manufacturer: ${item.manufacturer})`
+    ).join('\n');
+
+    Alert.alert(
+      'Duplicate Detected',
+      `The following item(s) already exist in uploaded records:\n\n${dupDetails}\n\nPlease review before uploading.`
+    );
     return;
   }
 
