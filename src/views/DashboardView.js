@@ -44,7 +44,7 @@ export default function Dashboard({ onSwitchTab }) {
       marginVertical: 6
     }}>
       <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.name}</Text>
-      <Text>Amount: {item.amount} {item.unit}</Text>
+      <Text>Quantity: {item.quantity} {item.unit}</Text>
       <Text style={{ color: 'gray', fontSize: 12 }}>ID: {item.id}</Text>
     </View>
   );

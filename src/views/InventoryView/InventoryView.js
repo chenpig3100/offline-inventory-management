@@ -85,7 +85,7 @@ export default function InventoryView({ onEditProduct }) {
     ID           : ${item.id}
     Name         : ${item.name}
     Description  : ${item.description}
-    Amount       : ${item.amount}
+    Quantity       : ${item.quantity}
     Unit         : ${item.unit}
     Part No      : ${item.part_no}
     Manufacturer : ${item.manufacturer}

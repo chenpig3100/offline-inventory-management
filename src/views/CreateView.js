@@ -12,7 +12,7 @@ import { manufacturerList, conditionList } from '../data/porductOptions';
 
 export default function CreateProductView() {
   const [form, setForm] = useState({
-    name: '', description: '', amount: '', unit: '',
+    name: '', description: '', quantity: '', unit: '',
     part_no: '', manufacturer: '', category_main: '',
     category_sub: '', category_sub_sub: '', condition: '',
     country: '', image: []
@@ -92,6 +92,26 @@ useEffect(() => {
 
   const handleSubmit = async () => {
     try {
+        const requiredFields = ['name', 'description', 'quantity', 'unit', 'part_no', 'manufacturer', 'condition', 'country'];
+    const missingFields = requiredFields.filter(field => !form[field] || form[field].trim() === '');
+
+    if (missingFields.length > 0) {
+      const labels = {
+        name: 'Name',
+        description: 'Description',
+        quantity: 'Quantity',
+        unit: 'Unit',
+        part_no: 'Part Number',
+        manufacturer: 'Manufacturer',
+        condition: 'Condition',
+        country: 'Country',
+      };
+
+      const missingLabels = missingFields.map(f => labels[f] || f).join(', ');
+      Alert.alert("Missing Information", `Please fill in: ${missingLabels}`);
+      return;
+      }
+
       const category_id = categoryData?.[form.category_main]?.[form.category_sub]?.[form.category_sub_sub];
 
       if (!category_id) {
@@ -101,13 +121,13 @@ useEffect(() => {
 
       await insertProduct({
         ...form,
-        amount: parseInt(form.amount) || 0,
+        quantity: parseInt(form.quantity) || 0,
         category_id
       });
 
       Alert.alert('Success', 'Product saved.');
       setForm({
-        name: '', description: '', amount: '', unit: '',
+        name: '', description: '', quantity: '', unit: '',
         part_no: '', manufacturer: '', category_main: '',
         category_sub: '', category_sub_sub: '', condition: '',
         country: '', image: []
@@ -123,14 +143,14 @@ useEffect(() => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Add Product</Text>
 
-      {['name', 'description', 'amount', 'unit', 'part_no'].map(field => (
+      {['name', 'description', 'quantity', 'unit', 'part_no'].map(field => (
         <TextInput
           key={field}
           placeholder={field}
           value={form[field]}
           onChangeText={text => handleChange(field, text)}
           style={styles.input}
-          keyboardType={field === 'amount' ? 'numeric' : 'default'}
+          keyboardType={field === 'quantity' ? 'numeric' : 'default'}
         />
       ))}
 

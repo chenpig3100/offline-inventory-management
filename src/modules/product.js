@@ -16,14 +16,14 @@ export async function initProductTable() {
     const db = await getDBConnection();
 
     // DELETE DB, ONLY USE WHEN THERE IS CHANGE IN DB
-    // await db.execAsync(`DROP TABLE IF EXISTS product`);
+    //await db.execAsync(`DROP TABLE IF EXISTS product`);
 
     await db.execAsync(`
       CREATE TABLE IF NOT EXISTS product (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         description TEXT,
-        amount INTEGER,
+        quantity INTEGER,
         unit TEXT,
         part_no TEXT,
         manufacturer TEXT,
@@ -73,7 +73,7 @@ export async function insertProduct(product) {
   const {
     name,
     description,
-    amount,
+    quantity,
     unit,
     part_no,
     manufacturer,
@@ -102,7 +102,7 @@ export async function insertProduct(product) {
       `INSERT INTO product (
         name,
         description,
-        amount,
+        quantity,
         unit,
         part_no,
         manufacturer,
@@ -113,7 +113,7 @@ export async function insertProduct(product) {
         is_synced,
         updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, datetime('now'))`,
-      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, safeImage]
+      [name, description, quantity, unit, part_no, manufacturer, category_id, condition, country, safeImage]
     );
     return result.lastInsertRowId;
   } catch (err) {
@@ -128,7 +128,7 @@ export async function updateProduct(product) {
     id,
     name,
     description,
-    amount,
+    quantity,
     unit,
     part_no,
     manufacturer,
@@ -157,7 +157,7 @@ export async function updateProduct(product) {
       `UPDATE product SET
         name = ?,
         description = ?,
-        amount = ?,
+        quantity = ?,
         unit = ?,
         part_no = ?,
         manufacturer = ?,
@@ -167,7 +167,7 @@ export async function updateProduct(product) {
         image = ?,
         updated_at = datetime('now')
        WHERE id = ?`,
-      [name, description, amount, unit, part_no, manufacturer, category_id, condition, country, safeImage, id]
+      [name, description, quantity, unit, part_no, manufacturer, category_id, condition, country, safeImage, id]
     );
     return result.rowsAffected;
   } catch (err) {

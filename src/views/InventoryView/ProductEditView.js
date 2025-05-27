@@ -169,7 +169,7 @@ export default function ProductEditView({ product, onBack }) {
                 id: product.id,
                 name: form.name,
                 description: form.description,
-                amount: parseInt(form.amount) || 0,
+                quantity: parseInt(form.quantity) || 0,
                 unit: form.unit,
                 part_no: form.partNo,
                 manufacturer: form.manufacturer,
