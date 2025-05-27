@@ -33,14 +33,23 @@ export default function CreateProductView() {
   const [openCondition, setOpenCondition] = useState(false);
 
   useEffect(() => {
-  setMainItems(Object.keys(categoryData).map(k => ({ label: k, value: k })));
-  setCountryItems(countryList.map(c => ({ label: c, value: c })));
+  setMainItems(Object.keys(categoryData)
+    .map(k => ({ label: k, value: k }))
+    .sort((a, b) => a.label.localeCompare(b.label))
+  );
+  setCountryItems(countryList
+    .map(c => ({ label: c, value: c }))
+    .sort((a, b) => a.label.localeCompare(b.label))
+  );
 }, []);
 
 useEffect(() => {
   if (form.category_main) {
     const subs = Object.keys(categoryData[form.category_main] || {});
-    setSubItems(subs.map(s => ({ label: s, value: s })));
+    setSubItems(subs
+      .map(s => ({ label: s, value: s }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+    );
   } else {
     setSubItems([]);
   }
@@ -50,7 +59,10 @@ useEffect(() => {
 useEffect(() => {
   if (form.category_main && form.category_sub) {
     const subsubObj = categoryData[form.category_main]?.[form.category_sub] || {};
-    const subsubList = Object.entries(subsubObj).map(([name, id]) => ({ label: name, value: name }));
+    const subsubList = Object.entries(subsubObj)
+      .map(([name, id]) => ({ label: name, value: name })
+      .sort((a, b) => a.label.localeCompare(b.label))
+    );
     setSubSubItems(subsubList);
   } else {
     setSubSubItems([]);
