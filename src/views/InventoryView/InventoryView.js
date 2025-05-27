@@ -100,6 +100,9 @@ export default function InventoryView({ onEditProduct }) {
     const refreshed = await getAllProducts();
     setData(refreshed);
 
+    const now = new Date().toLocaleString();
+    const timestamp = Date.now();
+
     // API TXT
     const logLines = unsynced.map((item, i) => {
       return `[${i + 1}] POST /api/upload
@@ -120,16 +123,32 @@ export default function InventoryView({ onEditProduct }) {
     });
 
     const fileContent = `Manual Upload Log (${now})\n\n` + logLines.join('\n');
+    const txtFileUri = `${FileSystem.documentDirectory}manual_upload_${timestamp}.txt`;
+    await FileSystem.writeAsStringAsync(txtFileUri, fileContent);
+    console.log('TXT saved at:', txtFileUri);
 
-    const fileUri = FileSystem.documentDirectory + `manual_upload_${Date.now()}.txt`;
-    await FileSystem.writeAsStringAsync(fileUri, fileContent);
-    console.log('TXT saved at:', fileUri);
+    // DB doc export
+    const dbName = 'inventory.db';
+    const sourcePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
+    const exportDbPath = `${FileSystem.documentDirectory}${timestamp}_${dbName}`;
 
-    // observe TXT
-    if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(fileUri);
+    const dbFile = await FileSystem.getInfoAsync(sourcePath);
+    if (dbFile.exists) {
+      await FileSystem.copyAsync({
+        from: sourcePath,
+        to: exportDbPath
+      });
+      console.log('DB exported at:', exportDbPath);
+
+      // share function
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(txtFileUri); // txt
+        await Sharing.shareAsync(exportDbPath); // db
+      } else {
+        Alert.alert('Notice', 'Sharing not available on this device');
+      }
     } else {
-      Alert.alert('Notice', 'Sharing not available on this device');
+      console.warn('Database file not found:', sourcePath);
     }
 
     // ✅ addannouncement（success）
