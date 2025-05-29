@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView, Image } from "react-native";
 import styles from '../constants/navSwitchBarStyles';
 import HintOverlay from './HintOverlay';
+import NewHintOverlay from './NewHintOverlay';
 import { getHasNewAnnouncements, setHasNewAnnouncements } from '../services/announcementStorage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activeTab }) {
   const [showHint, setShowHint] = useState(false);
@@ -31,8 +33,8 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
         <View style={styles.navBar}>
           <Text style={styles.title}>INEXLINK</Text>
           <View style={styles.topRightButtons}>
-            <View ref={hintRef}>
-              <TouchableOpacity onPress={() => setShowHint(true)}>
+            <View>
+              <TouchableOpacity ref={hintRef} onPress={() => setShowHint(true)}>
                 <Image source={require('../assets/icons/help.png')} style={styles.iconImage} />
               </TouchableOpacity>
             </View>
@@ -105,7 +107,7 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
 
       {/* HintOverlay） */}
       {showHint && (
-        <HintOverlay
+        <NewHintOverlay
           refs={{
             hintRef,
             announcementRef,
@@ -115,6 +117,7 @@ export default function MainLayOut({ children, onNavigateTop, onSwitchTab, activ
             inventoryRef,
           }}
           onClose={() => setShowHint(false)}
+          insets={useSafeAreaInsets()}
         />
       )}
     </SafeAreaView>
