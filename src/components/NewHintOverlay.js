@@ -13,41 +13,45 @@ import {
 
 const { width, height } = Dimensions.get('window');
 
-export default function HintOverlay({ refs, onClose, insets }) {
+export default function NewHintOverlay({ refs, onClose, insets }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [positions, setPositions] = useState([]);
 
   const steps = [
     { key: 'hintRef', message: 'This button is for some hints.' },
-    { key: 'announcementRef', message: 'This button is for current announcement.' },
-    { key: 'settingRef', message: 'This button is for setting.' },
-    { key: 'dashboardRef', message: 'This button is for dashboard.' },
-    { key: 'createRef', message: 'This button is for creating new items.' },
-    { key: 'inventoryRef', message: 'This button is for inventory list.' },
+    { key: 'announcementRef', message: 'This button shows announcements.' },
+    { key: 'settingRef', message: 'This button opens settings.' },
+    { key: 'dashboardRef', message: 'Go to dashboard.' },
+    { key: 'createRef', message: 'Create a new item.' },
+    { key: 'inventoryRef', message: 'Access inventory list.' },
   ];
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
       const measureAll = async () => {
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise((r) => setTimeout(r, 100));
         const newPositions = await Promise.all(
           steps.map(({ key }) => measureView(refs[key]))
         );
         setPositions(newPositions);
       };
       measureAll();
-    })
-    //setTimeout(measureAll, 200);
+    });
   }, []);
 
   const measureView = (ref) => {
     return new Promise((resolve) => {
-      if (!ref?.current) return resolve(null);
+      if (!ref?.current) {
+        console.warn('Ref not ready:', ref);
+        return resolve(null);
+      } 
       const handle = findNodeHandle(ref.current);
-      if (!handle) return resolve(null);
-      UIManager.measure(handle, (x, y, w, h) => {
-        //console.log("measureView", { x, y, w, h });
-        resolve({ x, y, width: w, height: h });
+      if (!handle) {
+        console.warn('Handle not found for ref:', ref);
+        return resolve(null);
+      } 
+      UIManager.measure(handle, (x, y, w, h, pageX, pageY) => {
+        resolve({ x: pageX, y: pageY - (insets?.top || 0), width: w, height: h });
       });
     });
   };
@@ -62,63 +66,42 @@ export default function HintOverlay({ refs, onClose, insets }) {
 
   const currentStep = steps[stepIndex];
   const pos = positions[stepIndex];
-
   if (!pos) return null;
-
-  const tooltipLeft = Math.max(120, Math.min(pos.x - 30, width - width * 0.75));
-  const tooltipTop = pos.y + pos.height + 10 > height - 100
-    ? pos.y - 60
-    : pos.y + pos.height + 30;
+  const isBottomBar = ['dashboardRef', 'createRef', 'inventoryRef'].includes(currentStep.key);
+  const tooltipWidth = width * 0.7;
+  const tooltipLeft = Math.max(12, Math.min(pos.x, width - tooltipWidth - 12));
+  const tooltipTop = isBottomBar
+  ? pos.y - 60 // 顯示在 icon 上方
+  : pos.y + pos.height + 12; // 顯示在 icon 下方
 
   return (
     <TouchableWithoutFeedback onPress={nextStep}>
       <View style={styles.overlay}>
-        {/* dimbackground */}
-        {/* <View style={styles.dimBackground} /> */}
+        {/* Dimming everything except the highlighted item */}
+        <View style={styles.dimBackground} />
 
-        <View style={styles.spotlightContainer}>
-          {/* Top */}
-          <View style={{ position: 'absolute', top: 0, left: 0, width, height: pos.y, backgroundColor: 'rgba(0,0,0,0.6)' }} />
-          {/* Bottom */}
-          <View style={{ position: 'absolute', top: pos.y + pos.height, left: 0, width, height: height - (pos.y + pos.height), backgroundColor: 'rgba(0,0,0,0.6)' }} />
-          {/* Left */}
-          <View style={{ position: 'absolute', top: pos.y, left: 0, width: pos.x, height: pos.height, backgroundColor: 'rgba(0,0,0,0.6)' }} />
-          {/* Right */}
-          <View style={{ position: 'absolute', top: pos.y, left: pos.x + pos.width, width: width - (pos.x + pos.width), height: pos.height, backgroundColor: 'rgba(0,0,0,0.6)' }} />
-        </View>
-
-        {/* highlightbox */}
-        {/* <View
-          style={[
-            styles.highlightBox,
-            {
-              top: pos.y + 15,
-              left: pos.x + 295,
-              width: pos.width - 2,
-              height: pos.height + 8,
-            },
-          ]}
-        /> */}
-
+        {/* Highlighted item as a circle or box */}
         <View
           style={{
             position: 'absolute',
             top: pos.y - 6,
-            left: pos.x - 6,
-            width: pos.width + 12,
+            left: pos.x,
+            width: pos.width,
             height: pos.height + 12,
             borderRadius: 8,
             borderWidth: 2,
-            borderColor: 'white',
+            borderColor: '#00f',
+            backgroundColor: 'rgba(255,255,255,0.15)',
+            zIndex: 1001,
           }}
         />
 
-        {/* tooltip */}
+        {/* Tooltip */}
         <View style={[styles.tooltip, { top: tooltipTop, left: tooltipLeft }]}>
           <Text style={styles.tooltipText}>{currentStep.message}</Text>
         </View>
 
-        {/* closebutton */}
+        {/* Close Button */}
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeText}>✕</Text>
         </TouchableOpacity>
@@ -132,20 +115,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 999,
   },
-  spotlightContainer: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 998,
-  },
   dimBackground: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  highlightBox: {
-    position: 'absolute',
-    borderWidth: 2,
-    borderColor: '#00f',
-    borderRadius: 6,
-    backgroundColor: 'transparent',
   },
   tooltip: {
     position: 'absolute',
@@ -157,6 +129,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
+    zIndex: 1001,
   },
   tooltipText: {
     fontSize: 14,
@@ -169,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 6,
-    zIndex: 1000,
+    zIndex: 1002,
   },
   closeText: {
     fontSize: 20,
