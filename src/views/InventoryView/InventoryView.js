@@ -57,6 +57,32 @@ export default function InventoryView({ onEditProduct }) {
     ); 
   };
 
+  // Mock server function
+  // In order to check whether the server receives the API information and pictures.
+  // Commented out — remove the comment if necessary.
+  /*
+  const uploadImageToServer = async (imageUri) => {
+    const formData = new FormData();
+    formData.append('image', {
+      uri: imageUri,
+      name: 'photo.jpg',
+      type: 'image/jpeg',
+    });
+
+    const res = await fetch('http://192.168.8.181:5000/upload', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const json = await res.json();
+    return json.url; // URL
+  };
+  const uploadedItems = [];
+  */
+
   const handleManualUpload = async () => {
   const now = new Date().toLocaleString(); // current time
   const unsynced = data.filter(item => item.is_synced === 0);
@@ -95,6 +121,56 @@ export default function InventoryView({ onEditProduct }) {
     return;
   }
 
+  // Mock server function
+  // In order to check whether the server receives the API information and pictures.
+  // Commented out — remove the comment if necessary.
+  /*
+  for (const item of unsynced) {
+    let imageUrls = [];
+
+    if (Array.isArray(item.image)) {
+      for (const uri of item.image) {
+        try {
+          const uploadedUrl = await uploadImageToServer(uri);
+          if (uploadedUrl) {
+            imageUrls.push(uploadedUrl);
+          }
+        } catch (err) {
+          console.warn(`Multiple upload fail：${uri}`, err);
+        }
+      }
+    }
+
+    const payload = {
+      name: item.name,
+      description: item.description,
+      quantity: item.quantity,
+      unit: item.unit,
+      part_no: item.part_no,
+      manufacturer: item.manufacturer,
+      category_id: item.category_id,
+      condition: item.condition,
+      country: item.country,
+      image: imageUrls
+    };
+
+    const response = await fetch('http://192.168.8.181:5000/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const serverResult = await response.json(); // serverResult.id 
+
+    // push
+    uploadedItems.push({
+      ...item,
+      server_id: serverResult.id,        // server ID
+      uploadedImages: imageUrls
+    });
+  }
+  */
+
   try {
     await markAllAsSynced(); 
     const refreshed = await getAllProducts();
@@ -106,7 +182,7 @@ export default function InventoryView({ onEditProduct }) {
     // API TXT
     const logLines = unsynced.map((item, i) => {
       return `[${i + 1}] POST /api/upload
-    ID           : ${item.id}
+    ID           : ${item.server_id}
     Name         : ${item.name}
     Description  : ${item.description}
     Quantity       : ${item.quantity}
